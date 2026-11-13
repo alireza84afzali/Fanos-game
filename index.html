@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>جنگل فانوس - نسخه ۹.۲ (v9.2.0)</title>
+<title>جنگل فانوس - نسخه ۹.۳ (v9.3.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -176,7 +176,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
     <!-- منوی اصلی -->
     <div id="ov-main" class="overlay">
       <canvas id="menu-lantern-canvas"></canvas>
-      <div class="version-badge" id="app-version-badge">v9.2.0</div>
+      <div class="version-badge" id="app-version-badge">v9.3.0</div>
       <button class="creator-fab" onclick="openCreatorModal()" title="درباره سازنده">👨‍💻</button>
 
       <div class="menu-top-bar">
@@ -578,6 +578,30 @@ const bg = document.createElement('canvas'); bg.width=W; bg.height=H;
     b.fillRect(rnd(0,W), rnd(0,H*.62), rnd(1,2.4), rnd(1,2.4));
   }
   const cols = ['#110d20','#0c161f','#060f14'];
+  for(let l=0;l<3;l++){
+    b.fillStyle = cols[l];
+    for(let i=0;i<12;i++){
+      const x=rnd(-20,W+20), h=rnd(100,180)+l*35, y=rnd(200,H+20), w=h*.32;
+      for(let k=0;k<3;k++){
+        const yy=y-k*h*.26, s=1-k*.2;
+        b.beginPath(); b.moveTo(x,yy-h*.42); b.lineTo(x-w*s,yy); b.lineTo(x+w*s,yy); b.fill();
+      }
+    }
+  }
+})();
+
+// پس‌زمینه روز (صبح در جنگل) برای ابر انفجار
+const bgDay = document.createElement('canvas'); bgDay.width=W; bgDay.height=H;
+(()=>{
+  const b = bgDay.getContext('2d');
+  const gr = b.createLinearGradient(0,0,0,H);
+  gr.addColorStop(0,'#7ec8e3'); gr.addColorStop(1,'#dcf3ff');
+  b.fillStyle = gr; b.fillRect(0,0,W,H);
+  for(let i=0;i<90;i++){
+    b.fillStyle = 'rgba(255,255,255,'+rnd(.3,.7)+')';
+    b.fillRect(rnd(0,W), rnd(0,H*.62), rnd(1,2.2), rnd(1,2.2));
+  }
+  const cols = ['#2e5c31','#3b7a57','#4f9c6e'];
   for(let l=0;l<3;l++){
     b.fillStyle = cols[l];
     for(let i=0;i<12;i++){
@@ -1287,6 +1311,13 @@ function draw(){
   g.save();
   if(shake > 0) g.translate(rnd(-4,4)*shake*3, rnd(-4,4)*shake*3);
   g.drawImage(bg, 0, 0);
+
+  if(superBlastTimer > 0){
+    const dayAlpha = superBlastTimer < 1 ? superBlastTimer : (superBlastTimer > 9 ? (10 - superBlastTimer) : 1);
+    g.globalAlpha = Math.max(0, Math.min(1, dayAlpha));
+    g.drawImage(bgDay, 0, 0);
+    g.globalAlpha = 1.0;
+  }
 
   for(const s of shades){
     g.save();
