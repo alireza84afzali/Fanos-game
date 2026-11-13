@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>جنگل فانوس - نسخه ۹ (نسخه پیشرفته)</title>
+<title>جنگل فانوس - نسخه ۹.۲ (v9.2.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -17,12 +17,12 @@ html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--
 body{display:flex;flex-direction:column;max-width:540px;margin:0 auto;padding:8px 12px}
 
 /* HUD */
-#hud{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;font-size:14px;padding:6px 4px 10px}
-.hud-item{display:flex;align-items:center;gap:6px;background:var(--card);padding:6px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.08);min-width:75px;justify-content:center}
-.hud-item b{font-weight:800;font-size:16px;color:var(--accent)}
-#barw{flex:1;height:12px;border-radius:12px;background:var(--card);overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+#hud{display:flex;align-items:center;justify-content:space-between;gap:6px;font-weight:700;font-size:13px;padding:6px 2px 10px}
+.hud-item{display:flex;align-items:center;gap:4px;background:var(--card);padding:5px 8px;border-radius:12px;border:1px solid rgba(255,255,255,.08);min-width:65px;justify-content:center}
+.hud-item b{font-weight:800;font-size:14.5px;color:var(--accent)}
+#barw{flex:1;height:12px;border-radius:12px;background:var(--card);overflow:hidden;border:1px solid rgba(255,255,255,.1);min-width:40px}
 #bar{height:100%;width:100%;background:linear-gradient(90deg,#f28a2e,var(--accent));border-radius:12px;transition:width .1s linear}
-.hud-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.15);border-radius:12px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:14px}
+.hud-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.15);border-radius:12px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:13px}
 .hud-btn:hover{border-color:var(--accent);color:var(--accent)}
 
 /* Stage & Canvas */
@@ -35,7 +35,7 @@ canvas{touch-action:none;display:block;cursor:none}
 .overlay[hidden]{display:none}
 
 /* Top Bar inside Main Menu */
-.menu-top-bar{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:center;gap:6px;z-index:12}
+.menu-top-bar{position:absolute;top:54px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:center;gap:6px;z-index:12}
 .diff-selector{display:flex;background:rgba(0,0,0,.45);border-radius:999px;padding:3px;border:1px solid rgba(255,255,255,.1)}
 .diff-btn{background:transparent;color:#aaa;border:0;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
 .diff-btn.active{background:var(--accent);color:#140e20;box-shadow:0 2px 8px rgba(242,178,74,.4)}
@@ -45,9 +45,9 @@ canvas{touch-action:none;display:block;cursor:none}
 .currency-badge{background:var(--card);border:1px solid rgba(255,255,255,.12);padding:4px 8px;border-radius:999px;font-size:11.5px;font-weight:800;display:flex;align-items:center;gap:3px}
 
 /* Version badge top-right of main menu */
-.version-badge{position:absolute;top:12px;right:12px;background:rgba(242,178,74,0.15);border:1px solid rgba(242,178,74,0.4);color:var(--accent);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800;z-index:15;backdrop-filter:blur(4px)}
+.version-badge{position:absolute;top:12px;right:14px;background:rgba(242,178,74,0.15);border:1px solid rgba(242,178,74,0.4);color:var(--accent);padding:4px 12px;border-radius:999px;font-size:12px;font-weight:800;z-index:15;backdrop-filter:blur(4px);direction:ltr;}
 
-#ttl{margin:26px 0 4px;font-size:26px;font-weight:800;color:var(--accent);text-shadow:0 4px 15px rgba(242,178,74,.3)}
+#ttl{margin:32px 0 4px;font-size:26px;font-weight:800;color:var(--accent);text-shadow:0 4px 15px rgba(242,178,74,.3)}
 #txt{margin:0 0 14px;font-size:13px;max-width:320px;color:#d6cbb5;position:relative;z-index:2}
 
 .btn-group{display:flex;flex-direction:column;gap:8px;width:100%;max-width:240px;position:relative;z-index:2}
@@ -129,7 +129,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
 .save-stage-btn-game:disabled{opacity:.35;border-color:#777;color:#888;cursor:not-allowed}
 
 /* Toast Notification */
-#toast{position:absolute;top:14px;left:50%;transform:translateX(-50%);background:rgba(20,16,34,.95);border:1px solid var(--accent);color:#fff;padding:6px 16px;border-radius:999px;font-size:12px;font-weight:700;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s}
+#toast{position:absolute;top:18px;left:50%;transform:translateX(-50%);background:rgba(20,16,34,0.96);border:2px solid var(--accent);color:#fff;padding:10px 24px;border-radius:999px;font-size:14.5px;font-weight:800;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s;box-shadow:0 6px 22px rgba(0,0,0,0.6);text-align:center;max-width:90%;line-height:1.5}
 #toast.show{opacity:1}
 </style>
 </head>
@@ -137,8 +137,9 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
 
 <div id="hud">
   <div class="hud-item"><span id="hud-lbl">کرم:</span> <b id="sc">۰</b></div>
+  <div class="hud-item" id="hud-timer-container" style="display:none;"><span id="hud-timer-title">زمان:</span> <b id="endless-timer-val">۰ ثانیه</b></div>
   <div id="barw"><div id="bar"></div></div>
-  <div class="hud-item" id="hud-right-box"><span id="hud-right-title">ثانیه:</span> <b id="bs">۰</b></div>
+  <div class="hud-item" id="hud-right-box"><span id="hud-right-title">رکورد:</span> <b id="bs">۰</b></div>
   <button class="hud-btn" title="تنظیمات" onclick="openSettings()">⚙️</button>
   <button class="hud-btn" title="توقف بازی" onclick="togglePause()">⏸</button>
 </div>
@@ -175,7 +176,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
     <!-- منوی اصلی -->
     <div id="ov-main" class="overlay">
       <canvas id="menu-lantern-canvas"></canvas>
-      <div class="version-badge" id="app-version-badge">نسخه ۹</div>
+      <div class="version-badge" id="app-version-badge">v9.2.0</div>
       <button class="creator-fab" onclick="openCreatorModal()" title="درباره سازنده">👨‍💻</button>
 
       <div class="menu-top-bar">
@@ -560,6 +561,7 @@ let currentStage = 1;
 let MAXL = 190, MINL = 26;
 let p, flies, shades, parts, score, t=0, light, spawn, cd, pulse, shake;
 let stageTimeLeft = 0, stageGoal = 50, stageSavedUsed = false, stageCheckpointScore = 0, stageCheckpointTime = 0;
+let endlessTime = 0;
 let shieldTimer = 0, superBlastTimer = 0;
 let mouse = {x:W/2, y:H*.7, on:false}, keys = {};
 let listeningAction = null;
@@ -679,7 +681,6 @@ function updateMainMenuStats(){
   $('menu-diff-best').textContent = fa(saveData.best[diff] || 0);
   $('diamond-count').textContent = fa(saveData.diamonds || 0);
   $('total-worms-badge').textContent = fa(saveData.totalWorms || 0);
-  $('bs').textContent = '۰';
   updateShopUI();
 }
 
@@ -834,6 +835,7 @@ function resetEntities(){
   light = 155;
   score = 0;
   t = 0;
+  endlessTime = 0;
   spawn = 1.8;
   cd = 0;
   pulse = null;
@@ -851,8 +853,9 @@ window.startEndless = function(){
   mode = 'endless';
   resetEntities();
   $('hud-lbl').textContent = 'کرم:';
-  $('hud-right-title').textContent = 'ثانیه:';
-  $('bs').textContent = '۰';
+  $('hud-timer-container').style.display = 'flex';
+  $('hud-right-title').textContent = 'رکورد:';
+  $('bs').textContent = fa(saveData.best[diff] || 0);
   $('save-stage-btn').style.display = 'none';
   $('hud-item-extra').style.display = 'none';
   $('ingame-controls').hidden = false;
@@ -875,8 +878,9 @@ window.startStageLevel = function(stNum){
   stageCheckpointTime = params.time;
 
   $('hud-lbl').textContent = `مرحله ${fa(stNum)} (${fa(stageGoal)} کرم):`;
+  $('hud-timer-container').style.display = 'none';
   $('hud-right-title').textContent = 'زمان:';
-  $('bs').textContent = fa(stageTimeLeft);
+  $('bs').textContent = fa(stageTimeLeft) + ' ثانیه';
   
   const saveBtn = $('save-stage-btn');
   saveBtn.style.display = 'inline-block';
@@ -969,7 +973,7 @@ function restoreStageCheckpoint(){
   last = performance.now();
   $('ov-end').hidden = true;
   showToast('بازی از نقطه ذخیره بازیابی شد!');
-}
+};
 
 window.togglePause = function(){
   if(state === 'play'){
@@ -1045,10 +1049,15 @@ window.doPulse = function(){
 function updateHUD(){
   if(mode === 'stages'){
     $('sc').textContent = `${fa(score)} / ${fa(stageGoal)}`;
-    $('bs').textContent = fa(Math.max(0, Math.ceil(stageTimeLeft))) + 'ث';
+    $('bs').textContent = fa(Math.max(0, Math.ceil(stageTimeLeft))) + ' ثانیه';
   } else {
     $('sc').textContent = fa(score);
-    $('bs').textContent = fa(Math.floor(t)) + 'ث';
+    $('endless-timer-val').textContent = fa(Math.floor(endlessTime)) + ' ثانیه';
+    const best = saveData.best[diff] || 0;
+    if(score > best){
+      saveData.best[diff] = score;
+    }
+    $('bs').textContent = fa(saveData.best[diff] || 0);
   }
   $('bar').style.width = cl((light-MINL)/(MAXL-MINL), 0, 1)*100 + '%';
   
@@ -1164,6 +1173,7 @@ function step(dt){
   }
 
   if(mode === 'endless'){
+    endlessTime += dt;
     const diamondMilestone = Math.floor(score / 100);
     if(diamondMilestone > (saveData._lastDiamond || 0)){
       saveData._lastDiamond = diamondMilestone;
