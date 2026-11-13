@@ -3,308 +3,960 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>جنگل فانوس - نسخه پیشرفته</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap" rel="stylesheet">
+<title>جنگل فانوس - نسخه حرفه‌ای</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#110e1b;--fg:#f1e6cc;--card:#1c1730;--accent:#f2b24a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--fg);font-family:Vazirmatn,Tahoma,system-ui,sans-serif;display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding:10px 12px;box-sizing:border-box;overflow:hidden}
-#hud{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;padding:2px 4px 10px}
-#hud span b{font-weight:800;font-size:16px;color:var(--accent)}
-#barw{flex:1;height:8px;border-radius:8px;background:var(--card);overflow:hidden}
-#bar{height:100%;width:100%;background:var(--accent);border-radius:8px;transition:width .1s linear}
-#stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-#frame{position:relative;line-height:0;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+:root{
+  --bg:#0e0b16;--fg:#f1e6cc;--card:#1a152b;--accent:#f2b24a;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px)
+}
+*{box-sizing:border-box;user-select:none;-webkit-user-select:none}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--fg);font-family:'Vazirmatn',Tahoma,sans-serif}
+body{display:flex;flex-direction:column;max-width:540px;margin:0 auto;padding:8px 12px}
+
+/* HUD */
+#hud{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;font-size:13px;padding:4px 2px 8px}
+.hud-item{display:flex;align-items:center;gap:4px;background:var(--card);padding:4px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.06)}
+.hud-item b{font-weight:800;font-size:15px;color:var(--accent)}
+#barw{flex:1;height:10px;border-radius:10px;background:var(--card);overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+#bar{height:100%;width:100%;background:linear-gradient(90deg,#f28a2e,var(--accent));border-radius:10px;transition:width .1s linear}
+#pause-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.15);border-radius:10px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:14px}
+#pause-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Stage & Canvas */
+#stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative}
+#frame{position:relative;line-height:0;border-radius:18px;overflow:hidden;box-shadow:0 12px 45px rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.08)}
 canvas{touch-action:none;display:block;cursor:none}
-#ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;line-height:1.6;background:rgba(10,7,20,.88);color:#f7ecd3}
-#ov[hidden]{display:none}
-#ttl{margin:0;font-size:28px;font-weight:800;letter-spacing:0;color:var(--accent)}
-#txt{margin:0;font-size:14px;max-width:340px}
-.btn-group{display:flex;flex-direction:column;gap:8px;width:100%;max-width:240px}
-button{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;color:#1a1224;background:var(--accent);padding:10px 24px;font-size:15px;transition:transform .1s, filter .1s}
-button:hover{filter:brightness(1.1);transform:scale(1.02)}
-button:active{transform:scale(0.98)}
-.btn-sec{background:var(--card);color:var(--fg);box-shadow:inset 0 0 0 2px var(--accent)}
-#foot{display:flex;justify-content:center;padding-top:10px}
-#pulse{background:var(--card);color:var(--fg);padding:10px 28px;font-size:15px;box-shadow:inset 0 0 0 2px var(--accent)}
-#pulse.cool{opacity:.5}
+
+/* Overlays */
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;line-height:1.6;background:rgba(10,8,18,.92);backdrop-filter:blur(6px);color:#f7ecd3;z-index:10;overflow-y:auto}
+.overlay[hidden]{display:none}
+
+/* Top Bar inside Main Menu */
+.menu-top-bar{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:center;gap:8px;z-index:12}
+.diff-selector{display:flex;background:rgba(0,0,0,.45);border-radius:999px;padding:3px;border:1px solid rgba(255,255,255,.1)}
+.diff-btn{background:transparent;color:#aaa;border:0;border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:700;cursor:pointer;transition:.2s}
+.diff-btn.active{background:var(--accent);color:#140e20;box-shadow:0 2px 8px rgba(242,178,74,.4)}
+.icon-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent)}
+.diamond-badge{background:rgba(60,180,255,.15);border:1px solid rgba(60,180,255,.35);color:#70d6ff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;display:flex;align-items:center;gap:4px}
+
+#ttl{margin:30px 0 6px;font-size:28px;font-weight:800;color:var(--accent);text-shadow:0 4px 15px rgba(242,178,74,.3)}
+#txt{margin:0 0 18px;font-size:13.5px;max-width:320px;color:#d6cbb5}
+
+.btn-group{display:flex;flex-direction:column;gap:10px;width:100%;max-width:250px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;color:#1a1224;background:var(--accent);padding:11px 22px;font-size:14.5px;transition:transform .12s, filter .12s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn:hover{filter:brightness(1.1);transform:scale(1.02)}
+.btn:active{transform:scale(0.97)}
+.btn-sec{background:var(--card);color:var(--fg);box-shadow:inset 0 0 0 1.5px rgba(242,178,74,.5)}
+.btn-sec:hover{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.btn-danger{background:rgba(255,80,80,.18);color:#ff8585;box-shadow:inset 0 0 0 1.5px rgba(255,80,80,.5)}
+
+/* Stages Grid */
+.stages-header{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-top:10px}
+.stages-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;max-height:360px;overflow-y:auto;padding:4px}
+.stages-grid::-webkit-scrollbar{width:5px}
+.stages-grid::-webkit-scrollbar-thumb{background:rgba(242,178,74,.4);border-radius:5px}
+.stage-cell{aspect-ratio:1;border-radius:12px;background:var(--card);border:1.5px solid rgba(242,178,74,.4);color:var(--fg);font-weight:800;font-size:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.15s;position:relative}
+.stage-cell:hover:not(.locked){background:var(--accent);color:#140e20;transform:scale(1.05)}
+.stage-cell.done{border-color:#56ffaa;background:rgba(86,255,170,.12)}
+.stage-cell.locked{opacity:.4;border-color:rgba(255,255,255,.1);cursor:not-allowed;font-size:12px}
+
+/* Settings Panel */
+.settings-box{width:100%;max-width:340px;display:flex;flex-direction:column;gap:14px;text-align:right;background:rgba(255,255,255,.03);padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.08);max-height:420px;overflow-y:auto}
+.set-row{display:flex;flex-direction:column;gap:6px}
+.set-label{font-size:13px;font-weight:700;color:#e5d8be;display:flex;justify-content:space-between}
+input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6px;border-radius:5px;background:#2a2342}
+.slider-ticks{display:flex;justify-content:space-between;font-size:10.5px;color:#998fa8}
+
+/* Color Ovals */
+.color-ovals{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.color-oval{height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;cursor:pointer;border:2px solid transparent;transition:.15s;text-shadow:0 1px 3px rgba(0,0,0,.85);color:#fff}
+.color-oval.selected{border-color:#fff;transform:scale(1.06);box-shadow:0 0 12px rgba(255,255,255,.4)}
+
+/* Key Selector */
+.key-options{display:flex;gap:6px;flex-wrap:wrap}
+.key-opt{flex:1;min-width:44px;padding:6px;border-radius:8px;background:var(--card);border:1px solid rgba(255,255,255,.15);color:var(--fg);font-weight:800;font-size:12px;cursor:pointer;text-align:center}
+.key-opt.active{background:var(--accent);color:#140e20;border-color:var(--accent)}
+
+/* Footer Controls */
+#foot{display:flex;justify-content:center;align-items:center;gap:10px;padding-top:8px}
+#pulse{flex:1;max-width:220px;background:var(--card);color:var(--fg);padding:10px 20px;font-size:14.5px;font-weight:800;border-radius:999px;border:0;box-shadow:inset 0 0 0 2px var(--accent);cursor:pointer;transition:.15s}
+#pulse:hover:not(.cool){background:var(--accent);color:#140e20}
+#pulse.cool{opacity:.45;cursor:not-allowed}
+#save-stage-btn{background:rgba(86,255,170,.15);color:#56ffaa;border:1.5px solid #56ffaa;padding:10px 16px;font-size:13px;font-weight:800;border-radius:999px;cursor:pointer;display:none}
+#save-stage-btn:disabled{opacity:.4;border-color:#777;color:#888;cursor:not-allowed}
+
+/* Toast Notification */
+#toast{position:absolute;top:16px;left:50%;transform:translateX(-50%);background:rgba(20,16,34,.95);border:1px solid var(--accent);color:#fff;padding:6px 16px;border-radius:999px;font-size:12.5px;font-weight:700;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s}
+#toast.show{opacity:1}
 </style>
 </head>
 <body>
+
 <div id="hud">
-  <span><b id="hud-lbl">کرم:</b> <b id="sc">۰</b></span>
+  <div class="hud-item"><span id="hud-lbl">کرم:</span> <b id="sc">۰</b></div>
   <div id="barw"><div id="bar"></div></div>
-  <span>رکورد: <b id="bs">۰</b></span>
+  <div class="hud-item" id="hud-right-box"><span>رکورد:</span> <b id="bs">۰</b></div>
+  <button id="pause-btn" title="توقف بازی" onclick="togglePause()">⏸</button>
 </div>
+
 <div id="stage">
   <div id="frame">
     <canvas id="c"></canvas>
-    <div id="ov">
-      <h1 id="ttl">جنگل فانوس</h1>
-      <p id="txt">به جنگل تاریک خوش آمدید. حالت بازی خود را انتخاب کنید:</p>
-      <div id="menu-box" class="btn-group">
-        <button onclick="setMode('levels')">موج سطوح (آسان/متوسط/سخت)</button>
-        <button onclick="setMode('endless')" class="btn-sec">حالت رکوردی (بی‌پایان)</button>
-        <button onclick="setMode('stages')" class="btn-sec">حالت مرحله‌ای (آبشاری)</button>
+    <div id="toast">ذخیره شد!</div>
+
+    <!-- منوی اصلی -->
+    <div id="ov-main" class="overlay">
+      <div class="menu-top-bar">
+        <div class="diff-selector" id="diff-selector">
+          <button class="diff-btn active" onclick="setDiff(1)">آسان</button>
+          <button class="diff-btn" onclick="setDiff(2)">متوسط</button>
+          <button class="diff-btn" onclick="setDiff(3)">سخت</button>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div class="diamond-badge" title="الماس‌های شما">💎 <span id="diamond-count">۰</span></div>
+          <button class="icon-btn" onclick="openSettings()">⚙️ تنظیمات</button>
+        </div>
       </div>
-      <div id="sub-menu-box" class="btn-group" style="display:none">
-        <button id="m-btn1" onclick="startPlay(1)">آسان</button>
-        <button id="m-btn2" onclick="startPlay(2)" class="btn-sec">متوسط</button>
-        <button id="m-btn3" onclick="startPlay(3)" class="btn-sec">سخت</button>
-        <button onclick="backToMenu()" class="btn-sec" style="font-size:13px;padding:6px">بازگشت</button>
+
+      <h1 id="ttl">جنگل فانوس</h1>
+      <p id="txt">سطح سختی را از بالا انتخاب کنید و وارد ماجراجویی شوید</p>
+
+      <div class="btn-group">
+        <button class="btn" onclick="startEndless()">🔥 حالت رکوردی (بی‌پایان)</button>
+        <button class="btn btn-sec" onclick="openStagesMenu()">🗺️ حالت مرحله‌ای (۱۰۰ مرحله)</button>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:#aaa">
+        رکورد سطح <span id="menu-diff-name" style="color:var(--accent);font-weight:700">آسان</span>: <b id="menu-diff-best" style="color:#fff">۰</b>
       </div>
     </div>
+
+    <!-- منوی انتخاب مرحله (۱۰۰ مرحله) -->
+    <div id="ov-stages" class="overlay" hidden>
+      <div class="stages-header">
+        <span style="font-weight:800;font-size:16px;color:var(--accent)">مراحل سطح <span id="st-diff-lbl">آسان</span></span>
+        <button class="icon-btn" onclick="showOverlay('ov-main')">بازگشت ↩</button>
+      </div>
+      <div class="stages-grid" id="stages-grid"></div>
+    </div>
+
+    <!-- منوی تنظیمات -->
+    <div id="ov-settings" class="overlay" hidden>
+      <div class="stages-header">
+        <span style="font-weight:800;font-size:17px;color:var(--accent)">⚙️ تنظیمات بازی</span>
+        <button class="icon-btn" onclick="closeSettings()">تأیید و بازگشت</button>
+      </div>
+      <div class="settings-box">
+        <!-- اسلایدر سرعت حرکت فانوس -->
+        <div class="set-row">
+          <div class="set-label">
+            <span>سرعت حرکت فانوس:</span>
+            <span id="speed-val-lbl" style="color:var(--accent)">استاندارد</span>
+          </div>
+          <input type="range" id="speed-slider" min="0.6" max="1.5" step="0.05" value="1.0" oninput="updateSpeedSetting(this.value)">
+          <div class="slider-ticks">
+            <span>آهسته</span>
+            <span>استاندارد (وسط)</span>
+            <span>سریع</span>
+          </div>
+        </div>
+
+        <!-- انتخاب دکمه انفجار در ویندوز -->
+        <div class="set-row">
+          <div class="set-label"><span>دکمه انفجار در کیبورد (ویندوز):</span></div>
+          <div class="key-options" id="key-options">
+            <div class="key-opt active" data-key="KeyF" onclick="setBlastKey('KeyF','F')">F</div>
+            <div class="key-opt" data-key="Space" onclick="setBlastKey('Space','Space')">Space</div>
+            <div class="key-opt" data-key="KeyE" onclick="setBlastKey('KeyE','E')">E</div>
+            <div class="key-opt" data-key="ShiftLeft" onclick="setBlastKey('ShiftLeft','Shift')">Shift</div>
+          </div>
+        </div>
+
+        <!-- رنگ فانوس به صورت بیضی -->
+        <div class="set-row">
+          <div class="set-label"><span>رنگ نور فانوس:</span></div>
+          <div class="color-ovals" id="color-ovals">
+            <div class="color-oval selected" data-col="gold" style="background:linear-gradient(135deg,#e09a24,#ffd470)" onclick="setLanternColor('gold')">طلایی</div>
+            <div class="color-oval" data-col="red" style="background:linear-gradient(135deg,#d62828,#ff7575)" onclick="setLanternColor('red')">قرمز</div>
+            <div class="color-oval" data-col="green" style="background:linear-gradient(135deg,#1b9aaa,#56ffaa)" onclick="setLanternColor('green')">سبز</div>
+            <div class="color-oval" data-col="purple" style="background:linear-gradient(135deg,#7209b7,#d88cff)" onclick="setLanternColor('purple')">بنفش</div>
+            <div class="color-oval" data-col="blue" style="background:linear-gradient(135deg,#0077b6,#6ee4ff)" onclick="setLanternColor('blue')">آبی</div>
+            <div class="color-oval" data-col="pink" style="background:linear-gradient(135deg,#d81159,#ff85b3)" onclick="setLanternColor('pink')">صورتی</div>
+          </div>
+        </div>
+
+        <!-- صدای شب جنگلی و جیرجیرک -->
+        <div class="set-row">
+          <div class="set-label">
+            <span>صدای آرام شب و جیرجیرک:</span>
+            <span id="vol-val-lbl" style="color:var(--accent)">۴۰٪</span>
+          </div>
+          <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.4" oninput="updateAudioVolume(this.value)">
+          <div class="slider-ticks">
+            <span>خاموش</span>
+            <span>ملایم</span>
+            <span>زیاد</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- منوی توقف (Pause) -->
+    <div id="ov-pause" class="overlay" hidden>
+      <h2 style="margin:0 0 8px;color:var(--accent);font-size:24px">بازی متوقف شد ⏸</h2>
+      <p style="margin:0 0 18px;font-size:13.5px;color:#ccc">می‌توانید بازی را ادامه دهید یا با ذخیره امتیاز به منو برگردید.</p>
+      <div class="btn-group">
+        <button class="btn" onclick="resumeGame()">▶ ادامه بازی</button>
+        <button class="btn btn-sec" onclick="saveAndQuit()">💾 ذخیره رکورد و خروج به منو</button>
+      </div>
+    </div>
+
+    <!-- منوی پایان بازی (برد یا باخت) -->
+    <div id="ov-end" class="overlay" hidden>
+      <h2 id="end-ttl" style="margin:0 0 6px;color:var(--accent);font-size:25px">پایان بازی</h2>
+      <p id="end-txt" style="margin:0 0 18px;font-size:14px;max-width:310px"></p>
+      <div class="btn-group">
+        <button class="btn" id="end-primary-btn">تلاش مجدد</button>
+        <button class="btn btn-sec" onclick="exitToMainMenu()">بازگشت به منوی اصلی</button>
+      </div>
+    </div>
+
   </div>
 </div>
-<div id="foot"><button id="pulse">انفجار</button></div>
+
+<div id="foot">
+  <button id="pulse" onclick="doPulse()">انفجار (<span id="key-badge">F</span>)</button>
+  <button id="save-stage-btn" onclick="saveStageCheckpoint()">💾 ذخیره (۱ بار)</button>
+</div>
 
 <script>
 (()=>{
 const W=480,H=640,cv=document.getElementById('c'),g=cv.getContext('2d');
 cv.width=W;cv.height=H;
 const $=id=>document.getElementById(id);
-const ov=$('ov'),ttl=$('ttl'),txt=$('txt'),sc=$('sc'),bs=$('bs'),bar=$('bar'),pb=$('pulse');
-const menuBox=$('menu-box'),subMenuBox=$('sub-menu-box'),hudLbl=$('hud-lbl');
-const rnd=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),fa=n=>n.toLocaleString('fa-IR');
+const rnd=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),fa=n=>Math.floor(n).toLocaleString('fa-IR');
 
-let MAXL=190,MINL=26;
-let best=0;try{best=+localStorage.getItem('lf_best2')||0}catch(e){}
-bs.textContent=fa(best);
-
-let S='menu',gameMode='levels',diff=1,stageNum=1,stageTimer=0,stageTarget=30;
-let p,flies,shades,parts,score,t=0,light,spawn,cd,pulse,shake,mouse={x:W/2,y:H*.7,on:false},keys={};
-
-const themes={
-  0:{pCol:'110, 228, 255', sCol:'rgba(100,220,255,.8)', shCol:'#15222b', name:'رکوردی'},
-  1:{pCol:'86, 255, 170', sCol:'rgba(80,220,150,.8)', shCol:'#162822', name:'آسان'},
-  2:{pCol:'255, 223, 108', sCol:'rgba(255,200,100,.8)', shCol:'#2b2015', name:'متوسط'},
-  3:{pCol:'255, 110, 110', sCol:'rgba(255,100,100,.8)', shCol:'#2b1515', name:'سخت'},
-  4:{pCol:'223, 142, 255', sCol:'rgba(220,100,255,.8)', shCol:'#25152b', name:'مرحله‌ای'}
+// --- مدیریت ذخیره‌سازی و تنظیمات ---
+let saveData = {
+  best: {1:0, 2:0, 3:0},
+  unlockedStage: {1:1, 2:1, 3:1},
+  diamonds: 0,
+  settings: {
+    speedMul: 1.0,
+    blastKey: 'KeyF',
+    blastKeyLabel: 'F',
+    lanternColor: 'gold',
+    volume: 0.4
+  }
 };
 
-const bg=document.createElement('canvas');bg.width=W;bg.height=H;
-(()=>{const b=bg.getContext('2d');
-const gr=b.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#151026');gr.addColorStop(1,'#070f14');
-b.fillStyle=gr;b.fillRect(0,0,W,H);
-for(let i=0;i<120;i++){b.fillStyle='rgba(255,245,210,'+rnd(.1,.7)+')';b.fillRect(rnd(0,W),rnd(0,H*.6),rnd(1,2.5),rnd(1,2.5))}
-const cols=['#120e22','#0d1720','#071015'];
-for(let l=0;l<3;l++){b.fillStyle=cols[l];
- for(let i=0;i<12;i++){const x=rnd(-20,W+20),h=rnd(100,180)+l*35,y=rnd(200,H+20),w=h*.32;
-  for(let k=0;k<3;k++){const yy=y-k*h*.26,s=1-k*.2;b.beginPath();b.moveTo(x,yy-h*.42);b.lineTo(x-w*s,yy);b.lineTo(x+w*s,yy);b.fill()}}}
+try {
+  const raw = localStorage.getItem('fanos_pro_v1');
+  if(raw) {
+    const parsed = JSON.parse(raw);
+    saveData = {...saveData, ...parsed, best:{...saveData.best,...parsed.best}, unlockedStage:{...saveData.unlockedStage,...parsed.unlockedStage}, settings:{...saveData.settings,...parsed.settings}};
+  }
+} catch(e){}
+
+function persist(){
+  try { localStorage.setItem('fanos_pro_v1', JSON.stringify(saveData)); } catch(e){}
+}
+
+// --- موتور صدای آرام شب جنگلی و جیرجیرک (Web Audio API) ---
+let audioCtx = null, cricketInterval = null, nightGain = null;
+function initAudio(){
+  if(audioCtx) return;
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if(!AudioContext) return;
+  audioCtx = new AudioContext();
+
+  // صدای ملایم نسیم شب (Pink/Brown Noise)
+  const bufferSize = 2 * audioCtx.sampleRate;
+  const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const output = noiseBuffer.getChannelData(0);
+  let lastOut = 0.0;
+  for (let i = 0; i < bufferSize; i++) {
+    const white = Math.random() * 2 - 1;
+    output[i] = (lastOut + (0.02 * white)) / 1.02;
+    lastOut = output[i];
+    output[i] *= 0.15;
+  }
+  const whiteNoise = audioCtx.createBufferSource();
+  whiteNoise.buffer = noiseBuffer;
+  whiteNoise.loop = true;
+
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 280;
+
+  nightGain = audioCtx.createGain();
+  nightGain.gain.value = saveData.settings.volume * 0.25;
+
+  whiteNoise.connect(filter);
+  filter.connect(nightGain);
+  nightGain.connect(audioCtx.destination);
+  whiteNoise.start(0);
+
+  // صدای جیرجیرک‌های آرام جنگلی
+  cricketInterval = setInterval(()=>{
+    if(!audioCtx || audioCtx.state !== 'running' || saveData.settings.volume <= 0.01) return;
+    if(Math.random() > 0.55) return;
+    playCricketChirp();
+  }, 1800);
+}
+
+function playCricketChirp(){
+  if(!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const pulses = 2 + Math.floor(Math.random()*2);
+  const baseFreq = 3800 + Math.random()*500;
+  for(let i=0; i<pulses; i++){
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(baseFreq, now + i*0.09);
+    osc.frequency.exponentialRampToValueAtTime(baseFreq - 250, now + i*0.09 + 0.06);
+
+    const vol = saveData.settings.volume * 0.035;
+    gain.gain.setValueAtTime(0.0001, now + i*0.09);
+    gain.gain.exponentialRampToValueAtTime(Math.max(0.0002, vol), now + i*0.09 + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + i*0.09 + 0.065);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now + i*0.09);
+    osc.stop(now + i*0.09 + 0.07);
+  }
+}
+
+function ensureAudioRunning(){
+  initAudio();
+  if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+// --- رنگ‌های فانوس ---
+const lanternColors = {
+  gold:   {rgb:'255, 205, 105', core:'#fff9e6', name:'طلایی'},
+  red:    {rgb:'255, 95, 95',   core:'#ffe6e6', name:'قرمز'},
+  green:  {rgb:'86, 255, 170',  core:'#e6fff3', name:'سبز'},
+  purple: {rgb:'215, 120, 255', core:'#f7e6ff', name:'بنفش'},
+  blue:   {rgb:'90, 215, 255',  core:'#e6f9ff', name:'آبی'},
+  pink:   {rgb:'255, 125, 185', core:'#ffe6f2', name:'صورتی'}
+};
+
+const diffNames = {1:'آسان', 2:'متوسط', 3:'سخت'};
+
+// --- متغیرهای وضعیت بازی ---
+let state = 'menu'; // menu, play, pause, over
+let mode = 'endless'; // endless, stages
+let diff = 1;
+let currentStage = 1;
+
+let MAXL = 190, MINL = 26;
+let p, flies, shades, parts, score, t=0, light, spawn, cd, pulse, shake;
+let stageTimeLeft = 0, stageGoal = 120, stageSavedUsed = false, stageCheckpointScore = 0, stageCheckpointTime = 0;
+let lastDiamondMilestone = 0;
+let mouse = {x:W/2, y:H*.7, on:false}, keys = {};
+
+// پس‌زمینه جنگل
+const bg = document.createElement('canvas'); bg.width=W; bg.height=H;
+(()=>{
+  const b = bg.getContext('2d');
+  const gr = b.createLinearGradient(0,0,0,H);
+  gr.addColorStop(0,'#140f24'); gr.addColorStop(1,'#060e12');
+  b.fillStyle = gr; b.fillRect(0,0,W,H);
+  for(let i=0;i<130;i++){
+    b.fillStyle = 'rgba(255,245,210,'+rnd(.1,.75)+')';
+    b.fillRect(rnd(0,W), rnd(0,H*.62), rnd(1,2.4), rnd(1,2.4));
+  }
+  const cols = ['#110d20','#0c161f','#060f14'];
+  for(let l=0;l<3;l++){
+    b.fillStyle = cols[l];
+    for(let i=0;i<12;i++){
+      const x=rnd(-20,W+20), h=rnd(100,180)+l*35, y=rnd(200,H+20), w=h*.32;
+      for(let k=0;k<3;k++){
+        const yy=y-k*h*.26, s=1-k*.2;
+        b.beginPath(); b.moveTo(x,yy-h*.42); b.lineTo(x-w*s,yy); b.lineTo(x+w*s,yy); b.fill();
+      }
+    }
+  }
 })();
 
-function glow(x,y,r,c,a){const q=g.createRadialGradient(x,y,0,x,y,r);q.addColorStop(0,'rgba('+c+','+a+')');q.addColorStop(1,'rgba('+c+',0)');g.fillStyle=q;g.beginPath();g.arc(x,y,r,0,6.283);g.fill()}
-function burst(x,y,n,c){for(let i=0;i<n;i++){const a=rnd(0,6.283),v=rnd(30,160),l=rnd(.4,.9);parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l,m:l,c})}}
-function addFly(){flies.push({x:rnd(30,W-30),y:rnd(60,H-50),ph:rnd(0,6.28),s:rnd(.6,1.4)})}
+function showToast(msg){
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove('show'), 2200);
+}
+
+// --- فرمول محاسبه تعداد کرم و زمان برای ۱۰۰ مرحله ---
+function getStageParams(st){
+  // مرحله ۱: ۱۲۰ کرم، رشد ملایم و منطقی تا مرحله ۱۰۰
+  const goal = Math.round(120 + (st - 1) * 14 + Math.pow(st - 1, 1.15) * 2);
+  // زمان چالشی اما منصفانه (حدود ۱.۳ ثانیه به ازای هر کرم + ضریب سختی)
+  const diffFactor = diff === 1 ? 1.35 : (diff === 2 ? 1.2 : 1.08);
+  const time = Math.round(goal * diffFactor + 18);
+  return {goal, time};
+}
+
+// --- مدیریت منوها و UI ---
+window.showOverlay = function(id){
+  ['ov-main','ov-stages','ov-settings','ov-pause','ov-end'].forEach(oid=>{
+    $(oid).hidden = (oid !== id);
+  });
+  updateMainMenuStats();
+};
+
+window.setDiff = function(d){
+  ensureAudioRunning();
+  diff = d;
+  document.querySelectorAll('.diff-btn').forEach((btn, idx)=>{
+    btn.classList.toggle('active', idx+1 === d);
+  });
+  updateMainMenuStats();
+};
+
+function updateMainMenuStats(){
+  $('menu-diff-name').textContent = diffNames[diff];
+  $('menu-diff-best').textContent = fa(saveData.best[diff] || 0);
+  $('diamond-count').textContent = fa(saveData.diamonds || 0);
+  $('bs').textContent = fa(saveData.best[diff] || 0);
+}
+
+window.openSettings = function(){
+  ensureAudioRunning();
+  $('speed-slider').value = saveData.settings.speedMul;
+  updateSpeedLabel(saveData.settings.speedMul);
+  $('vol-slider').value = saveData.settings.volume;
+  updateVolLabel(saveData.settings.volume);
+
+  document.querySelectorAll('.key-opt').forEach(el=>{
+    el.classList.toggle('active', el.dataset.key === saveData.settings.blastKey);
+  });
+  document.querySelectorAll('.color-oval').forEach(el=>{
+    el.classList.toggle('selected', el.dataset.col === saveData.settings.lanternColor);
+  });
+  showOverlay('ov-settings');
+};
+
+window.closeSettings = function(){
+  persist();
+  showOverlay('ov-main');
+};
+
+function updateSpeedLabel(v){
+  v = parseFloat(v);
+  let txt = 'استاندارد';
+  if(v < 0.85) txt = 'خیلی آهسته';
+  else if(v < 0.98) txt = 'آهسته';
+  else if(v > 1.25) txt = 'خیلی سریع';
+  else if(v > 1.02) txt = 'سریع';
+  $('speed-val-lbl').textContent = txt + ' (' + Math.round(v*100).toLocaleString('fa-IR') + '٪)';
+}
+
+window.updateSpeedSetting = function(v){
+  saveData.settings.speedMul = parseFloat(v);
+  updateSpeedLabel(v);
+};
+
+window.setBlastKey = function(code, label){
+  saveData.settings.blastKey = code;
+  saveData.settings.blastKeyLabel = label;
+  $('key-badge').textContent = label;
+  document.querySelectorAll('.key-opt').forEach(el=>{
+    el.classList.toggle('active', el.dataset.key === code);
+  });
+};
+
+window.setLanternColor = function(col){
+  saveData.settings.lanternColor = col;
+  document.querySelectorAll('.color-oval').forEach(el=>{
+    el.classList.toggle('selected', el.dataset.col === col);
+  });
+};
+
+function updateVolLabel(v){
+  v = parseFloat(v);
+  $('vol-val-lbl').textContent = v === 0 ? 'خاموش 🔇' : Math.round(v*100).toLocaleString('fa-IR') + '٪';
+}
+
+window.updateAudioVolume = function(v){
+  ensureAudioRunning();
+  saveData.settings.volume = parseFloat(v);
+  updateVolLabel(v);
+  if(nightGain && audioCtx){
+    nightGain.gain.setTargetAtTime(saveData.settings.volume * 0.25, audioCtx.currentTime, 0.1);
+  }
+};
+
+// --- منوی ۱۰۰ مرحله ---
+window.openStagesMenu = function(){
+  ensureAudioRunning();
+  $('st-diff-lbl').textContent = diffNames[diff];
+  const grid = $('stages-grid');
+  grid.innerHTML = '';
+  const maxUnlocked = saveData.unlockedStage[diff] || 1;
+  for(let i=1; i<=100; i++){
+    const cell = document.createElement('div');
+    const isLocked = i > maxUnlocked;
+    const isDone = i < maxUnlocked;
+    cell.className = 'stage-cell' + (isLocked ? ' locked' : '') + (isDone ? ' done' : '');
+    cell.innerHTML = isLocked ? '🔒' : `<span>${fa(i)}</span>`;
+    if(!isLocked){
+      cell.onclick = ()=> startStageLevel(i);
+    }
+    grid.appendChild(cell);
+  }
+  showOverlay('ov-stages');
+};
+
+// --- شروع بازی‌ها ---
+function resetEntities(){
+  p = {x:W/2, y:H*.72};
+  light = 155;
+  score = 0;
+  t = 0;
+  spawn = 1.8;
+  cd = 0;
+  pulse = null;
+  shake = 0;
+  flies = [];
+  shades = [];
+  parts = [];
+  for(let i=0;i<7;i++) addFly();
+}
+
+window.startEndless = function(){
+  ensureAudioRunning();
+  mode = 'endless';
+  resetEntities();
+  lastDiamondMilestone = 0;
+  $('hud-lbl').textContent = 'کرم:';
+  $('hud-right-box').innerHTML = `<span>رکورد:</span> <b id="bs">${fa(saveData.best[diff]||0)}</b>`;
+  $('save-stage-btn').style.display = 'none';
+  state = 'play';
+  ['ov-main','ov-stages','ov-settings','ov-pause','ov-end'].forEach(oid=>$(oid).hidden=true);
+  updateHUD();
+};
+
+window.startStageLevel = function(stNum){
+  ensureAudioRunning();
+  mode = 'stages';
+  currentStage = stNum;
+  resetEntities();
+  const params = getStageParams(stNum);
+  stageGoal = params.goal;
+  stageTimeLeft = params.time;
+  stageSavedUsed = false;
+  stageCheckpointScore = 0;
+  stageCheckpointTime = params.time;
+
+  $('hud-lbl').textContent = `مرحله ${fa(stNum)}:`;
+  $('hud-right-box').innerHTML = `<span>زمان:</span> <b id="st-timer">${fa(stageTimeLeft)}</b>`;
+  const saveBtn = $('save-stage-btn');
+  saveBtn.style.display = 'inline-block';
+  saveBtn.disabled = false;
+  saveBtn.textContent = '💾 ذخیره (۱ بار)';
+
+  state = 'play';
+  ['ov-main','ov-stages','ov-settings','ov-pause','ov-end'].forEach(oid=>$(oid).hidden=true);
+  updateHUD();
+};
+
+// --- دکمه ذخیره یک‌بار در هر مرحله ---
+window.saveStageCheckpoint = function(){
+  if(state !== 'play' || mode !== 'stages' || stageSavedUsed) return;
+  stageSavedUsed = true;
+  stageCheckpointScore = score;
+  stageCheckpointTime = stageTimeLeft;
+  const btn = $('save-stage-btn');
+  btn.disabled = true;
+  btn.textContent = '✓ ذخیره شد';
+  showToast(`پیشرفت ذخیره شد! (${fa(score)} کرم)`);
+};
+
+function restoreStageCheckpoint(){
+  score = stageCheckpointScore;
+  stageTimeLeft = Math.max(15, stageCheckpointTime);
+  light = 155;
+  shades = [];
+  pulse = null;
+  cd = 0;
+  state = 'play';
+  $('ov-end').hidden = true;
+  showToast('بازی از نقطه ذخیره بازیابی شد!');
+}
+
+// --- توقف و بازگشت به منو ---
+window.togglePause = function(){
+  if(state === 'play'){
+    state = 'pause';
+    showOverlay('ov-pause');
+  } else if(state === 'pause'){
+    resumeGame();
+  }
+};
+
+window.resumeGame = function(){
+  if(state === 'pause'){
+    state = 'play';
+    $('ov-pause').hidden = true;
+  }
+};
+
+window.saveAndQuit = function(){
+  if(mode === 'endless'){
+    if(score > (saveData.best[diff] || 0)){
+      saveData.best[diff] = score;
+    }
+  }
+  persist();
+  state = 'menu';
+  showToast('امتیاز و وضعیت ذخیره شد');
+  showOverlay('ov-main');
+};
+
+window.exitToMainMenu = function(){
+  state = 'menu';
+  showOverlay('ov-main');
+};
+
+// --- مکانیک‌های بازی ---
+function glow(x,y,r,rgb,a){
+  const q = g.createRadialGradient(x,y,0,x,y,r);
+  q.addColorStop(0,'rgba('+rgb+','+a+')');
+  q.addColorStop(1,'rgba('+rgb+',0)');
+  g.fillStyle = q;
+  g.beginPath(); g.arc(x,y,r,0,6.283); g.fill();
+}
+
+function burst(x,y,n,rgb){
+  for(let i=0;i<n;i++){
+    const a=rnd(0,6.283), v=rnd(30,165), l=rnd(.4,.9);
+    parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l,m:l,c:rgb});
+  }
+}
+
+function addFly(){
+  flies.push({x:rnd(30,W-30), y:rnd(60,H-50), ph:rnd(0,6.28), s:rnd(.7,1.4)});
+}
+
 function addShade(){
-  const a=Math.floor(rnd(0,4));let x,y;
-  if(a===0){x=rnd(0,W);y=-25}else if(a===1){x=W+25;y=rnd(0,H)}else if(a===2){x=rnd(0,W);y=H+25}else{x=-25;y=rnd(0,H)}
-  let type=Math.floor(rnd(0,3));
-  shades.push({x,y,ph:rnd(0,6),type,speedMul:rnd(0.8,1.2)})
+  const a = Math.floor(rnd(0,4));
+  let x,y;
+  if(a===0){x=rnd(0,W);y=-25}
+  else if(a===1){x=W+25;y=rnd(0,H)}
+  else if(a===2){x=rnd(0,W);y=H+25}
+  else{x=-25;y=rnd(0,H)}
+  const type = Math.floor(rnd(0,3));
+  shades.push({x, y, ph:rnd(0,6), type, speedMul:rnd(0.85,1.2)});
 }
 
-window.setMode=function(m){
-  gameMode=m;
-  if(m==='endless'){
-    startPlay(0);
-  }else if(m==='stages'){
-    stageNum=1;
-    startPlay(4);
-  }else{
-    menuBox.style.display='none';
-    subMenuBox.style.display='flex';
-    ttl.textContent='انتخاب سطح سختی';
-    txt.textContent='سطح چالش بازی را انتخاب کنید:';
+window.doPulse = function(){
+  if(state === 'play' && cd <= 0){
+    pulse = {x:p.x, y:p.y, r:0};
+    cd = diff === 3 ? 5.5 : 4;
   }
-}
+};
 
-window.backToMenu=function(){
-  menuBox.style.display='flex';
-  subMenuBox.style.display='none';
-  ttl.textContent='جنگل فانوس';
-  txt.textContent='به جنگل تاریک خوش آمدید. حالت بازی خود را انتخاب کنید:';
-}
-
-function reset(){
-  p={x:W/2,y:H*.72};light=150;score=0;t=0;spawn=2;cd=0;pulse=null;shake=0;flies=[];shades=[];parts=[];
-  for(let i=0;i<6;i++)addFly();
-  if(gameMode==='stages'){
-    stageTimer=0;
-    stageTarget=35+stageNum*15;
-    hudLbl.textContent='مرحله '+fa(stageNum)+':';
-  }else{
-    hudLbl.textContent='کرم:';
+function updateHUD(){
+  if(mode === 'stages'){
+    $('sc').textContent = `${fa(score)} / ${fa(stageGoal)}`;
+    const tEl = $('st-timer');
+    if(tEl){
+      tEl.textContent = fa(Math.max(0, Math.ceil(stageTimeLeft))) + 'ث';
+      tEl.style.color = stageTimeLeft <= 10 ? '#ff5c5c' : 'var(--accent)';
+    }
+  } else {
+    $('sc').textContent = fa(score);
+    const bEl = $('bs');
+    if(bEl) bEl.textContent = fa(Math.max(score, saveData.best[diff]||0));
   }
-  hud();
+  $('bar').style.width = cl((light-MINL)/(MAXL-MINL), 0, 1)*100 + '%';
+  const pb = $('pulse');
+  pb.className = cd > 0 ? 'cool' : '';
+  pb.innerHTML = cd > 0 ? `انفجار (${fa(Math.ceil(cd))})` : `انفجار (<span id="key-badge">${saveData.settings.blastKeyLabel}</span>)`;
 }
 
-window.startPlay=function(d){
-  diff=d;
-  reset();
-  S='play';
-  ov.hidden=true;
-}
+function handleGameOver(win, reason){
+  state = 'over';
+  const primaryBtn = $('end-primary-btn');
 
-function hud(){
-  if(gameMode==='stages'){
-    sc.textContent=fa(Math.max(0,Math.ceil(stageTarget-stageTimer)))+' ثانیه';
-  }else{
-    sc.textContent=fa(score);
+  if(mode === 'stages'){
+    if(win){
+      if(currentStage >= (saveData.unlockedStage[diff]||1) && currentStage < 100){
+        saveData.unlockedStage[diff] = currentStage + 1;
+      }
+      persist();
+      $('end-ttl').textContent = `مرحله ${fa(currentStage)} با موفقیت رد شد! 🎉`;
+      $('end-txt').textContent = `عالی بود! توانستی ${fa(score)} کرم شب‌تاب را در زمان مقرر جمع کنی.`;
+      if(currentStage < 100){
+        primaryBtn.textContent = `رفتن به مرحله ${fa(currentStage+1)} ➔`;
+        primaryBtn.onclick = ()=> startStageLevel(currentStage + 1);
+      } else {
+        primaryBtn.textContent = 'بازگشت به لیست مراحل';
+        primaryBtn.onclick = ()=> openStagesMenu();
+      }
+    } else {
+      $('end-ttl').textContent = reason === 'time' ? 'زمان تمام شد! ⏳' : 'نورت خاموش شد! 🕯️';
+      $('end-txt').textContent = `در مرحله ${fa(currentStage)} فقط ${fa(score)} از ${fa(stageGoal)} کرم را جمع کردی.`;
+      if(stageSavedUsed && stageCheckpointScore > 0){
+        primaryBtn.textContent = `ادامه از نقطه ذخیره (${fa(stageCheckpointScore)} کرم)`;
+        primaryBtn.onclick = ()=> restoreStageCheckpoint();
+      } else {
+        primaryBtn.textContent = 'تلاش مجدد این مرحله';
+        primaryBtn.onclick = ()=> startStageLevel(currentStage);
+      }
+    }
+  } else {
+    const prevBest = saveData.best[diff] || 0;
+    const isRec = score > prevBest && score > 0;
+    if(isRec){
+      saveData.best[diff] = score;
+    }
+    persist();
+    $('end-ttl').textContent = 'نورت خاموش شد 🕯️';
+    $('end-txt').textContent = `در سطح ${diffNames[diff]} توانستی ${fa(score)} کرم جمع کنی` + (isRec ? ' و رکورد جدید ثبت شد! 🏆' : '.');
+    primaryBtn.textContent = 'شروع دوباره';
+    primaryBtn.onclick = ()=> startEndless();
   }
-  bar.style.width=cl((light-MINL)/(MAXL-MINL),0,1)*100+'%';
-  pb.className=cd>0?'cool':'';
-  pb.textContent=cd>0?'انفجار ('+fa(Math.ceil(cd))+')':'انفجار';
-}
-
-function doPulse(){if(S==='play'&&cd<=0){pulse={x:p.x,y:p.y,r:0};cd=diff===3?6:4}}
-
-function over(win=false){
-  S='over';
-  const rec=score>best&&score>0;
-  if(rec){best=score;try{localStorage.setItem('lf_best2',best)}catch(e){}}
-  bs.textContent=fa(best);
-  ttl.textContent='نورت خاموش شد 🕯️';
-  txt.textContent=gameMode==='stages'?'در مرحله '+fa(stageNum)+' متوقف شدی.':'امشب '+fa(score)+' کرم شب‌تاب جمع کردی'+(rec?' و رکورد جدید ثبت شد!':'.');
-  ov.hidden=false;
-  menuBox.style.display='flex';
-  subMenuBox.style.display='none';
+  showOverlay('ov-end');
 }
 
 function step(dt){
- t+=dt;
- if(gameMode==='stages'){
-   stageTimer+=dt;
-   if(stageTimer>=stageTarget){
-     stageNum++;
-     stageTimer=0;
-     stageTarget+=15;
-     hudLbl.textContent='مرحله '+fa(stageNum)+':';
-     burst(p.x,p.y,30,'220,100,255');
-     light=Math.min(MAXL,light+50);
-   }
- }
+  t += dt;
 
- const spd=diff===3?290:(diff===2?260:230);
- const dx=(keys.ArrowRight||keys.KeyD?1:0)-(keys.ArrowLeft||keys.KeyA?1:0),dy=(keys.ArrowDown||keys.KeyS?1:0)-(keys.ArrowUp||keys.KeyW?1:0);
- if(dx||dy){const m=Math.hypot(dx,dy);p.x+=dx/m*spd*dt;p.y+=dy/m*spd*dt;mouse.on=false}
- else if(mouse.on){const k=Math.min(1,dt*8);p.x+=(mouse.x-p.x)*k;p.y+=(mouse.y-p.y)*k}
- p.x=cl(p.x,16,W-16);p.y=cl(p.y,16,H-16);
+  // تایمر و شرط برد در حالت مرحله‌ای
+  if(mode === 'stages'){
+    stageTimeLeft -= dt;
+    if(score >= stageGoal){
+      handleGameOver(true);
+      return;
+    }
+    if(stageTimeLeft <= 0){
+      handleGameOver(false, 'time');
+      return;
+    }
+  }
 
- const drainRate=diff===3?7.5:(diff===2?6:(gameMode==='stages'?5.5+stageNum*.4:5));
- light-=dt*(drainRate+Math.min(score,50)*.15);
+  // سرعت حرکت فانوس با احتساب تنظیمات کاربر
+  const baseSpd = diff === 3 ? 285 : (diff === 2 ? 260 : 235);
+  const spd = baseSpd * saveData.settings.speedMul;
 
- for(const f of flies){
-   f.ph+=dt*f.s;f.x=cl(f.x+Math.sin(f.ph*1.3)*16*dt,16,W-16);f.y=cl(f.y+Math.cos(f.ph)*16*dt,16,H-16);
-   if(Math.hypot(f.x-p.x,f.y-p.y)<26){f.dead=1;score++;light=Math.min(MAXL,light+18);burst(f.x,f.y,12,'255,214,120')}
- }
- flies=flies.filter(f=>!f.dead);while(flies.length<(gameMode==='stages'?5+stageNum:6))addFly();
+  const dx = (keys.ArrowRight||keys.KeyD?1:0) - (keys.ArrowLeft||keys.KeyA?1:0);
+  const dy = (keys.ArrowDown||keys.KeyS?1:0) - (keys.ArrowUp||keys.KeyW?1:0);
+  if(dx || dy){
+    const m = Math.hypot(dx,dy);
+    p.x += dx/m * spd * dt;
+    p.y += dy/m * spd * dt;
+    mouse.on = false;
+  } else if(mouse.on){
+    const k = Math.min(1, dt * 8 * saveData.settings.speedMul);
+    p.x += (mouse.x - p.x) * k;
+    p.y += (mouse.y - p.y) * k;
+  }
+  p.x = cl(p.x, 16, W-16);
+  p.y = cl(p.y, 16, H-16);
 
- spawn-=dt;
- const spawnTime=Math.max(0.5, (diff===3?1.5:(diff===2?2:2.4)) - (gameMode==='stages'?stageNum*0.12:score*0.03));
- if(spawn<=0){addShade();spawn=spawnTime}
+  // کاهش تدریجی نور
+  const drainRate = diff === 3 ? 7.2 : (diff === 2 ? 5.8 : 4.6);
+  light -= dt * (drainRate + Math.min(score, 60) * 0.08);
 
- const shadeSpeed=Math.min(140, (diff===3?65:(diff===2?50:40)) + score*1.8 + (gameMode==='stages'?stageNum*4:0));
- for(const s of shades){
-   const a=Math.atan2(p.y-s.y,p.x-s.x);
-   s.ph+=dt*5;
-   s.x+=Math.cos(a)*shadeSpeed*s.speedMul*dt;
-   s.y+=Math.sin(a)*shadeSpeed*s.speedMul*dt;
-   if(Math.hypot(s.x-p.x,s.y-p.y)<26){
-     s.dead=1;light-= (diff===3?40:(diff===2?32:26));shake=.35;burst(p.x,p.y,18,'200,100,255');
-   }
- }
+  // جمع‌آوری کرم‌های شب‌تاب
+  const colRgb = (lanternColors[saveData.settings.lanternColor] || lanternColors.gold).rgb;
+  for(const f of flies){
+    f.ph += dt * f.s;
+    f.x = cl(f.x + Math.sin(f.ph*1.3)*16*dt, 16, W-16);
+    f.y = cl(f.y + Math.cos(f.ph)*16*dt, 16, H-16);
+    if(Math.hypot(f.x-p.x, f.y-p.y) < 26){
+      f.dead = 1;
+      score++;
+      light = Math.min(MAXL, light + 17);
+      burst(f.x, f.y, 12, '255, 220, 120');
 
- cd=Math.max(0,cd-dt);
- if(pulse){
-   pulse.r+=500*dt;
-   for(const s of shades)if(!s.dead&&Math.hypot(s.x-pulse.x,s.y-pulse.y)<pulse.r){s.dead=1;burst(s.x,s.y,14,'255,200,255')}
-   if(pulse.r>220)pulse=null;
- }
- shades=shades.filter(s=>!s.dead);
+      // جایزه الماس در حالت رکوردی به ازای هر ۱۵۰ کرم
+      if(mode === 'endless' && Math.floor(score / 150) > lastDiamondMilestone){
+        lastDiamondMilestone = Math.floor(score / 150);
+        saveData.diamonds = (saveData.diamonds || 0) + 1;
+        persist();
+        showToast('💎 تبریک! ۱ الماس هدیه گرفتید!');
+        burst(p.x, p.y, 25, '90, 215, 255');
+      }
+    }
+  }
+  flies = flies.filter(f=>!f.dead);
+  const targetFlies = mode === 'stages' ? 8 : 7;
+  while(flies.length < targetFlies) addFly();
 
- if(Math.random()<dt*45)parts.push({x:p.x+rnd(-5,5),y:p.y+8,vx:rnd(-10,10),vy:rnd(12,35),l:.6,m:.6,c:'255,200,110'});
- for(const q of parts){q.x+=q.vx*dt;q.y+=q.vy*dt;q.vx*=.95;q.vy*=.95;q.l-=dt}
- parts=parts.filter(q=>q.l>0);
- shake=Math.max(0,shake-dt);
- hud();
- if(light<MINL)over(false);
+  // تولید و حرکت دشمنان
+  spawn -= dt;
+  const spawnInterval = Math.max(0.55, (diff === 3 ? 1.5 : (diff === 2 ? 1.9 : 2.3)) - Math.min(score, 150)*0.005);
+  if(spawn <= 0){
+    addShade();
+    spawn = spawnInterval;
+  }
+
+  const shadeSpeed = Math.min(145, (diff === 3 ? 68 : (diff === 2 ? 52 : 40)) + Math.min(score, 200)*0.35);
+  for(const s of shades){
+    const a = Math.atan2(p.y-s.y, p.x-s.x);
+    s.ph += dt * 5;
+    s.x += Math.cos(a) * shadeSpeed * s.speedMul * dt;
+    s.y += Math.sin(a) * shadeSpeed * s.speedMul * dt;
+    if(Math.hypot(s.x-p.x, s.y-p.y) < 25){
+      s.dead = 1;
+      light -= (diff === 3 ? 38 : (diff === 2 ? 30 : 24));
+      shake = 0.35;
+      burst(p.x, p.y, 18, '255, 90, 120');
+    }
+  }
+
+  // موج انفجار
+  cd = Math.max(0, cd - dt);
+  if(pulse){
+    pulse.r += 520 * dt;
+    for(const s of shades){
+      if(!s.dead && Math.hypot(s.x-pulse.x, s.y-pulse.y) < pulse.r){
+        s.dead = 1;
+        burst(s.x, s.y, 14, colRgb);
+      }
+    }
+    if(pulse.r > 230) pulse = null;
+  }
+  shades = shades.filter(s=>!s.dead);
+
+  // ذرات دنباله فانوس
+  if(Math.random() < dt * 45){
+    parts.push({x:p.x+rnd(-5,5), y:p.y+7, vx:rnd(-10,10), vy:rnd(12,35), l:.55, m:.55, c:colRgb});
+  }
+  for(const q of parts){
+    q.x += q.vx*dt; q.y += q.vy*dt; q.vx *= .95; q.vy *= .95; q.l -= dt;
+  }
+  parts = parts.filter(q=>q.l>0);
+  shake = Math.max(0, shake - dt);
+
+  updateHUD();
+  if(light < MINL) handleGameOver(false, 'light');
 }
 
 function draw(){
- g.save();
- if(shake>0)g.translate(rnd(-4,4)*shake*3,rnd(-4,4)*shake*3);
- g.drawImage(bg,0,0);
+  g.save();
+  if(shake > 0) g.translate(rnd(-4,4)*shake*3, rnd(-4,4)*shake*3);
+  g.drawImage(bg, 0, 0);
 
- const activeTheme=themes[diff]||themes[1];
+  // رسم دشمنان واضح‌تر و واقعی‌تر
+  for(const s of shades){
+    g.save();
+    g.translate(s.x, s.y);
+    g.fillStyle = diff === 3 ? '#2e1418' : (diff === 2 ? '#241b2e' : '#18242b');
+    g.strokeStyle = diff === 3 ? 'rgba(255,95,95,.85)' : 'rgba(175,135,255,.8)';
+    g.lineWidth = 2;
 
- for(const s of shades){
-   g.save();
-   g.translate(s.x,s.y);
-   g.fillStyle=activeTheme.shCol;
-   g.strokeStyle=diff===3?'rgba(255,100,100,.85)':'rgba(170,130,255,.75)';
-   g.lineWidth=2;
+    g.beginPath();
+    if(s.type === 0){
+      for(let i=0;i<=10;i++){const a=i/10*6.283, r=16+Math.sin(a*4+s.ph)*4; g.lineTo(Math.cos(a)*r, Math.sin(a)*r)}
+    } else if(s.type === 1){
+      for(let i=0;i<=6;i++){const a=i/6*6.283, r=18+Math.cos(a*3+s.ph)*5; g.lineTo(Math.cos(a)*r, Math.sin(a)*r)}
+    } else {
+      g.moveTo(0,-20); g.lineTo(18,15); g.lineTo(-18,15);
+    }
+    g.closePath(); g.fill(); g.stroke();
 
-   g.beginPath();
-   if(s.type===0){
-     for(let i=0;i<=10;i++){const a=i/10*6.283,r=16+Math.sin(a*4+s.ph)*4;g.lineTo(Math.cos(a)*r,Math.sin(a)*r)}
-   }else if(s.type===1){
-     for(let i=0;i<=6;i++){const a=i/6*6.283,r=18+Math.cos(a*3+s.ph)*5;g.lineTo(Math.cos(a)*r,Math.sin(a)*r)}
-   }else{
-     g.moveTo(0,-20);g.lineTo(18,15);g.lineTo(-18,15);
-   }
-   g.closePath();g.fill();g.stroke();
+    g.fillStyle = diff === 3 ? '#ff3b3b' : '#d28eff';
+    g.beginPath();
+    g.arc(-5,-3,2.8,0,6.283);
+    g.arc(5,-3,2.8,0,6.283);
+    g.fill();
+    g.restore();
+  }
 
-   g.fillStyle=diff===3?'#ff3b3b':'#c882ff';
-   g.beginPath();
-   g.arc(-5,-3,2.8,0,6.283);
-   g.arc(5,-3,2.8,0,6.283);
-   g.fill();
-   g.restore();
- }
+  // هاله تاریکی جنگل
+  const gr = g.createRadialGradient(p.x, p.y, light*.4, p.x, p.y, light*1.25);
+  gr.addColorStop(0,'rgba(4,3,10,0)');
+  gr.addColorStop(1,'rgba(4,3,10,.92)');
+  g.fillStyle = gr;
+  g.fillRect(-15,-15,W+30,H+30);
 
- const gr=g.createRadialGradient(p.x,p.y,light*.4,p.x,p.y,light*1.25);
- gr.addColorStop(0,'rgba(4,3,10,0)');gr.addColorStop(1,'rgba(4,3,10,.92)');
- g.fillStyle=gr;g.fillRect(-15,-15,W+30,H+30);
+  const lTheme = lanternColors[saveData.settings.lanternColor] || lanternColors.gold;
 
- g.globalCompositeOperation='lighter';
- for(const f of flies)glow(f.x,f.y,20,'255,214,120',.6+.4*Math.sin(f.ph*3));
- for(const q of parts)glow(q.x,q.y,7,q.c,q.l/q.m);
- g.globalCompositeOperation='source-over';
+  g.globalCompositeOperation = 'lighter';
+  for(const f of flies) glow(f.x, f.y, 20, '255, 214, 120', .6 + .4*Math.sin(f.ph*3));
+  for(const q of parts) glow(q.x, q.y, 7, q.c, q.l/q.m);
+  g.globalCompositeOperation = 'source-over';
 
- if(pulse){
-   g.strokeStyle='rgba(255,230,160,'+(1-pulse.r/220)+')';
-   g.lineWidth=3.5;g.beginPath();g.arc(pulse.x,pulse.y,pulse.r,0,6.283);g.stroke();
- }
+  if(pulse){
+    g.strokeStyle = `rgba(${lTheme.rgb}, ${1 - pulse.r/230})`;
+    g.lineWidth = 4;
+    g.beginPath(); g.arc(pulse.x, pulse.y, pulse.r, 0, 6.283); g.stroke();
+  }
 
- g.globalCompositeOperation='lighter';
- glow(p.x,p.y,52+Math.sin(t*7)*4,activeTheme.pCol,.95);
- g.globalCompositeOperation='source-over';
- g.fillStyle='#ffffff';g.beginPath();g.arc(p.x,p.y,7.5,0,6.283);g.fill();
+  // نور کاراکتر اصلی با رنگ انتخاب شده در تنظیمات
+  g.globalCompositeOperation = 'lighter';
+  glow(p.x, p.y, 54 + Math.sin(t*7)*4, lTheme.rgb, .95);
+  g.globalCompositeOperation = 'source-over';
+  g.fillStyle = lTheme.core;
+  g.beginPath(); g.arc(p.x, p.y, 7.5, 0, 6.283); g.fill();
 
- g.restore();
+  g.restore();
 }
 
-let last=performance.now();
+let last = performance.now();
 function loop(n){
- const dt=Math.min(.05,(n-last)/1000);last=n;
- if(S==='play')step(dt);
- else{t+=dt;for(const f of flies)f.ph+=dt*f.s}
- draw();
- requestAnimationFrame(loop);
+  const dt = Math.min(.05, (n-last)/1000);
+  last = n;
+  if(state === 'play'){
+    step(dt);
+  } else if(state === 'menu'){
+    t += dt;
+    for(const f of flies) f.ph += dt*f.s;
+  }
+  draw();
+  requestAnimationFrame(loop);
 }
 
-function fit(){const st=$('stage'),s=Math.min(st.clientWidth/W,st.clientHeight/H);cv.style.width=Math.floor(W*s)+'px';cv.style.height=Math.floor(H*s)+'px'}
-function pt(e){const r=cv.getBoundingClientRect();mouse.x=(e.clientX-r.left)*W/r.width;mouse.y=(e.clientY-r.top)*H/r.height-(e.pointerType==='touch'?46:0);mouse.on=true}
-cv.addEventListener('pointermove',pt);cv.addEventListener('pointerdown',pt);
-addEventListener('keydown',e=>{
- if(e.code==='Space'){e.preventDefault();if(S==='play')doPulse();return}
- if(e.code.startsWith('Arrow'))e.preventDefault();
- keys[e.code]=1});
-addEventListener('keyup',e=>{keys[e.code]=0});
-pb.addEventListener('click',doPulse);
-addEventListener('resize',fit);
-reset();fit();requestAnimationFrame(loop);
+function fit(){
+  const st = $('stage');
+  const s = Math.min(st.clientWidth/W, st.clientHeight/H);
+  cv.style.width = Math.floor(W*s) + 'px';
+  cv.style.height = Math.floor(H*s) + 'px';
+}
+
+function pt(e){
+  if(state !== 'play') return;
+  const r = cv.getBoundingClientRect();
+  mouse.x = (e.clientX - r.left)*W/r.width;
+  mouse.y = (e.clientY - r.top)*H/r.height - (e.pointerType==='touch'?46:0);
+  mouse.on = true;
+}
+
+cv.addEventListener('pointermove', pt);
+cv.addEventListener('pointerdown', pt);
+
+addEventListener('keydown', e=>{
+  if(e.code === saveData.settings.blastKey){
+    e.preventDefault();
+    if(state === 'play') doPulse();
+    return;
+  }
+  if(e.code === 'Escape'){
+    if(state === 'play' || state === 'pause') togglePause();
+    return;
+  }
+  if(e.code.startsWith('Arrow')) e.preventDefault();
+  keys[e.code] = 1;
+});
+addEventListener('keyup', e=>{ keys[e.code] = 0; });
+addEventListener('resize', fit);
+
+// مقداردهی اولیه
+resetEntities();
+$('key-badge').textContent = saveData.settings.blastKeyLabel;
+updateMainMenuStats();
+fit();
+requestAnimationFrame(loop);
 })();
 </script>
 </body>
