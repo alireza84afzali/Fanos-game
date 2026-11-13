@@ -17,13 +17,13 @@ html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--
 body{display:flex;flex-direction:column;max-width:540px;margin:0 auto;padding:8px 12px}
 
 /* HUD */
-#hud{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;font-size:13px;padding:4px 2px 8px}
-.hud-item{display:flex;align-items:center;gap:4px;background:var(--card);padding:4px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.06)}
-.hud-item b{font-weight:800;font-size:15px;color:var(--accent)}
+#hud{display:flex;align-items:center;justify-content:space-between;gap:6px;font-weight:700;font-size:12.5px;padding:4px 2px 8px}
+.hud-item{display:flex;align-items:center;gap:4px;background:var(--card);padding:4px 8px;border-radius:12px;border:1px solid rgba(255,255,255,.06)}
+.hud-item b{font-weight:800;font-size:14.5px;color:var(--accent)}
 #barw{flex:1;height:10px;border-radius:10px;background:var(--card);overflow:hidden;border:1px solid rgba(255,255,255,.08)}
 #bar{height:100%;width:100%;background:linear-gradient(90deg,#f28a2e,var(--accent));border-radius:10px;transition:width .1s linear}
-#pause-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.15);border-radius:10px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:14px}
-#pause-btn:hover{border-color:var(--accent);color:var(--accent)}
+.hud-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.15);border-radius:10px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:13px}
+.hud-btn:hover{border-color:var(--accent);color:var(--accent)}
 
 /* Stage & Canvas */
 #stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative}
@@ -31,66 +31,95 @@ body{display:flex;flex-direction:column;max-width:540px;margin:0 auto;padding:8p
 canvas{touch-action:none;display:block;cursor:none}
 
 /* Overlays */
-.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;line-height:1.6;background:rgba(10,8,18,.92);backdrop-filter:blur(6px);color:#f7ecd3;z-index:10;overflow-y:auto}
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;line-height:1.6;background:rgba(10,8,18,.93);backdrop-filter:blur(6px);color:#f7ecd3;z-index:10;overflow-y:auto}
 .overlay[hidden]{display:none}
 
 /* Top Bar inside Main Menu */
-.menu-top-bar{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:center;gap:8px;z-index:12}
+.menu-top-bar{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:center;gap:6px;z-index:12}
 .diff-selector{display:flex;background:rgba(0,0,0,.45);border-radius:999px;padding:3px;border:1px solid rgba(255,255,255,.1)}
-.diff-btn{background:transparent;color:#aaa;border:0;border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:700;cursor:pointer;transition:.2s}
+.diff-btn{background:transparent;color:#aaa;border:0;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s}
 .diff-btn.active{background:var(--accent);color:#140e20;box-shadow:0 2px 8px rgba(242,178,74,.4)}
-.icon-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px}
+.icon-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:5px 10px;font-size:11.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px}
 .icon-btn:hover{border-color:var(--accent);color:var(--accent)}
-.diamond-badge{background:rgba(60,180,255,.15);border:1px solid rgba(60,180,255,.35);color:#70d6ff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;display:flex;align-items:center;gap:4px}
+.currencies{display:flex;gap:5px;align-items:center}
+.currency-badge{background:var(--card);border:1px solid rgba(255,255,255,.12);padding:4px 8px;border-radius:999px;font-size:11.5px;font-weight:800;display:flex;align-items:center;gap:3px}
 
-#ttl{margin:30px 0 6px;font-size:28px;font-weight:800;color:var(--accent);text-shadow:0 4px 15px rgba(242,178,74,.3)}
-#txt{margin:0 0 18px;font-size:13.5px;max-width:320px;color:#d6cbb5}
+#ttl{margin:26px 0 4px;font-size:26px;font-weight:800;color:var(--accent);text-shadow:0 4px 15px rgba(242,178,74,.3)}
+#txt{margin:0 0 14px;font-size:13px;max-width:320px;color:#d6cbb5}
 
-.btn-group{display:flex;flex-direction:column;gap:10px;width:100%;max-width:250px}
-.btn{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;color:#1a1224;background:var(--accent);padding:11px 22px;font-size:14.5px;transition:transform .12s, filter .12s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-group{display:flex;flex-direction:column;gap:8px;width:100%;max-width:240px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;color:#1a1224;background:var(--accent);padding:10px 20px;font-size:14px;transition:transform .12s, filter .12s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn:hover{filter:brightness(1.1);transform:scale(1.02)}
 .btn:active{transform:scale(0.97)}
 .btn-sec{background:var(--card);color:var(--fg);box-shadow:inset 0 0 0 1.5px rgba(242,178,74,.5)}
 .btn-sec:hover{box-shadow:inset 0 0 0 1.5px var(--accent)}
-.btn-danger{background:rgba(255,80,80,.18);color:#ff8585;box-shadow:inset 0 0 0 1.5px rgba(255,80,80,.5)}
 
 /* Stages Grid */
-.stages-header{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-top:10px}
-.stages-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;max-height:360px;overflow-y:auto;padding:4px}
+.stages-header{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-top:6px}
+.stages-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;width:100%;max-height:330px;overflow-y:auto;padding:4px}
 .stages-grid::-webkit-scrollbar{width:5px}
 .stages-grid::-webkit-scrollbar-thumb{background:rgba(242,178,74,.4);border-radius:5px}
-.stage-cell{aspect-ratio:1;border-radius:12px;background:var(--card);border:1.5px solid rgba(242,178,74,.4);color:var(--fg);font-weight:800;font-size:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.15s;position:relative}
+.stage-cell{aspect-ratio:1;border-radius:10px;background:var(--card);border:1.5px solid rgba(242,178,74,.4);color:var(--fg);font-weight:800;font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.15s;position:relative;padding:2px}
 .stage-cell:hover:not(.locked){background:var(--accent);color:#140e20;transform:scale(1.05)}
 .stage-cell.done{border-color:#56ffaa;background:rgba(86,255,170,.12)}
-.stage-cell.locked{opacity:.4;border-color:rgba(255,255,255,.1);cursor:not-allowed;font-size:12px}
+.stage-cell.locked{opacity:.55;border-color:rgba(255,255,255,.1);cursor:not-allowed}
+.stage-cost{font-size:9px;color:#ff9e9e;font-weight:700;margin-top:2px}
+.stage-cell.done .stage-cost{color:#79ffbb}
 
-/* Settings Panel */
-.settings-box{width:100%;max-width:340px;display:flex;flex-direction:column;gap:14px;text-align:right;background:rgba(255,255,255,.03);padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.08);max-height:420px;overflow-y:auto}
-.set-row{display:flex;flex-direction:column;gap:6px}
-.set-label{font-size:13px;font-weight:700;color:#e5d8be;display:flex;justify-content:space-between}
-input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6px;border-radius:5px;background:#2a2342}
-.slider-ticks{display:flex;justify-content:space-between;font-size:10.5px;color:#998fa8}
+/* Settings & Shop Panels */
+.panel-box{width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px;text-align:right;background:rgba(255,255,255,.03);padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.08);max-height:390px;overflow-y:auto}
+.panel-box::-webkit-scrollbar{width:5px}
+.panel-box::-webkit-scrollbar-thumb{background:rgba(242,178,74,.4);border-radius:5px}
+.set-row{display:flex;flex-direction:column;gap:5px}
+.set-label{font-size:12.5px;font-weight:700;color:#e5d8be;display:flex;justify-content:space-between}
+input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5px;border-radius:5px;background:#2a2342}
+.slider-ticks{display:flex;justify-content:space-between;font-size:10px;color:#998fa8}
 
 /* Color Ovals */
-.color-ovals{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.color-oval{height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;cursor:pointer;border:2px solid transparent;transition:.15s;text-shadow:0 1px 3px rgba(0,0,0,.85);color:#fff}
-.color-oval.selected{border-color:#fff;transform:scale(1.06);box-shadow:0 0 12px rgba(255,255,255,.4)}
+.color-ovals{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.color-oval{height:32px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;cursor:pointer;border:2px solid transparent;transition:.15s;text-shadow:0 1px 3px rgba(0,0,0,.85);color:#fff}
+.color-oval.selected{border-color:#fff;transform:scale(1.05);box-shadow:0 0 12px rgba(255,255,255,.4)}
 
 /* Key Selector */
-.key-options{display:flex;gap:6px;flex-wrap:wrap}
-.key-opt{flex:1;min-width:44px;padding:6px;border-radius:8px;background:var(--card);border:1px solid rgba(255,255,255,.15);color:var(--fg);font-weight:800;font-size:12px;cursor:pointer;text-align:center}
+.key-options{display:flex;gap:5px;flex-wrap:wrap}
+.key-opt{flex:1;min-width:40px;padding:5px;border-radius:8px;background:var(--card);border:1px solid rgba(255,255,255,.15);color:var(--fg);font-weight:800;font-size:11.5px;cursor:pointer;text-align:center}
 .key-opt.active{background:var(--accent);color:#140e20;border-color:var(--accent)}
 
+/* Shop Cards */
+.shop-grid{display:flex;flex-direction:column;gap:8px;width:100%}
+.shop-card{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:10px 12px;border-radius:12px}
+.shop-info h4{margin:0 0 3px;font-size:13px;color:var(--accent)}
+.shop-info p{margin:0;font-size:11px;color:#bbb}
+.shop-action{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.buy-btn{background:var(--accent);color:#140e20;border:0;border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:800;cursor:pointer}
+.buy-btn:hover{filter:brightness(1.1)}
+.item-count{font-size:11px;color:#70d6ff;font-weight:700}
+
+/* Creator FAB (Floating Action Button) */
+.creator-fab{position:absolute;bottom:10px;right:10px;width:38px;height:38px;border-radius:50%;background:var(--card);border:1.5px solid rgba(242,178,74,.4);color:var(--accent);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:15;box-shadow:0 4px 12px rgba(0,0,0,.5);transition:transform .15s, border-color .15s}
+.creator-fab:hover{transform:scale(1.1);border-color:var(--accent)}
+
+/* In-game Inventory HUD & Active Items */
+#ingame-items{position:absolute;top:10px;left:10px;display:flex;gap:5px;z-index:8}
+.item-hud-icon{background:rgba(26,21,43,.85);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:4px 8px;font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;opacity:0.35;transition:.2s}
+.item-hud-icon.active{opacity:1;border-color:var(--accent);box-shadow:0 0 10px rgba(242,178,74,.3)}
+.item-hud-icon.active:hover{transform:scale(1.05)}
+
+/* Revive Modal */
+#revive-box{display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px}
+.revive-option{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:8px 12px;border-radius:10px;font-size:12px}
+.revive-option.disabled{opacity:0.4}
+
 /* Footer Controls */
-#foot{display:flex;justify-content:center;align-items:center;gap:10px;padding-top:8px}
-#pulse{flex:1;max-width:220px;background:var(--card);color:var(--fg);padding:10px 20px;font-size:14.5px;font-weight:800;border-radius:999px;border:0;box-shadow:inset 0 0 0 2px var(--accent);cursor:pointer;transition:.15s}
+#foot{display:flex;justify-content:center;align-items:center;gap:8px;padding-top:6px}
+#pulse{flex:1;max-width:180px;background:var(--card);color:var(--fg);padding:9px 16px;font-size:13.5px;font-weight:800;border-radius:999px;border:0;box-shadow:inset 0 0 0 2px var(--accent);cursor:pointer;transition:.15s}
 #pulse:hover:not(.cool){background:var(--accent);color:#140e20}
 #pulse.cool{opacity:.45;cursor:not-allowed}
-#save-stage-btn{background:rgba(86,255,170,.15);color:#56ffaa;border:1.5px solid #56ffaa;padding:10px 16px;font-size:13px;font-weight:800;border-radius:999px;cursor:pointer;display:none}
-#save-stage-btn:disabled{opacity:.4;border-color:#777;color:#888;cursor:not-allowed}
+.extra-btn{background:rgba(86,255,170,.15);color:#56ffaa;border:1.5px solid #56ffaa;padding:9px 12px;font-size:12px;font-weight:800;border-radius:999px;cursor:pointer;display:none}
+.extra-btn:disabled{opacity:.35;border-color:#777;color:#888;cursor:not-allowed}
 
 /* Toast Notification */
-#toast{position:absolute;top:16px;left:50%;transform:translateX(-50%);background:rgba(20,16,34,.95);border:1px solid var(--accent);color:#fff;padding:6px 16px;border-radius:999px;font-size:12.5px;font-weight:700;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s}
+#toast{position:absolute;top:14px;left:50%;transform:translateX(-50%);background:rgba(20,16,34,.95);border:1px solid var(--accent);color:#fff;padding:6px 16px;border-radius:999px;font-size:12px;font-weight:700;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s}
 #toast.show{opacity:1}
 </style>
 </head>
@@ -99,14 +128,25 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6p
 <div id="hud">
   <div class="hud-item"><span id="hud-lbl">کرم:</span> <b id="sc">۰</b></div>
   <div id="barw"><div id="bar"></div></div>
-  <div class="hud-item" id="hud-right-box"><span>رکورد:</span> <b id="bs">۰</b></div>
-  <button id="pause-btn" title="توقف بازی" onclick="togglePause()">⏸</button>
+  <div class="hud-item" id="hud-right-box"><span>ثانیه:</span> <b id="bs">۰</b></div>
+  <button class="hud-btn" title="تنظیمات" onclick="openSettings()">⚙️</button>
+  <button class="hud-btn" title="توقف بازی" onclick="togglePause()">⏸</button>
 </div>
 
 <div id="stage">
   <div id="frame">
     <canvas id="c"></canvas>
     <div id="toast">ذخیره شد!</div>
+
+    <!-- آیتم‌های فعال درون بازی (زره و ابر انفجار) -->
+    <div id="ingame-items" hidden>
+      <div class="item-hud-icon" id="hud-item-shield" onclick="useInGameShield()" title="زره حفاظتی">🛡️ <span id="cnt-shield">۰</span></div>
+      <div class="item-hud-icon" id="hud-item-super" onclick="useInGameSuperBlast()" title="ابر انفجار">💥 <span id="cnt-super">۰</span></div>
+      <div class="item-hud-icon" id="hud-item-extra" onclick="useInGameExtraSave()" title="سیو اضافه مرحله">💾 <span id="cnt-extra">۰</span></div>
+    </div>
+
+    <!-- دکمه گرد سازنده در گوشه صفحه -->
+    <button class="creator-fab" onclick="openCreatorModal()" title="درباره سازنده">👨‍💻</button>
 
     <!-- منوی اصلی -->
     <div id="ov-main" class="overlay">
@@ -116,9 +156,11 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6p
           <button class="diff-btn" onclick="setDiff(2)">متوسط</button>
           <button class="diff-btn" onclick="setDiff(3)">سخت</button>
         </div>
-        <div style="display:flex;gap:6px;align-items:center">
-          <div class="diamond-badge" title="الماس‌های شما">💎 <span id="diamond-count">۰</span></div>
-          <button class="icon-btn" onclick="openSettings()">⚙️ تنظیمات</button>
+        <div class="currencies">
+          <div class="currency-badge" title="مجموع کرم‌های جمع‌آوری شده کل">🪱 <span id="total-worms-badge">۰</span></div>
+          <div class="currency-badge" title="الماس‌های شما">💎 <span id="diamond-count">۰</span></div>
+          <button class="icon-btn" onclick="openShop()">🛒 فروشگاه</button>
+          <button class="icon-btn" onclick="openSettings()">⚙️</button>
         </div>
       </div>
 
@@ -129,28 +171,57 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6p
         <button class="btn" onclick="startEndless()">🔥 حالت رکوردی (بی‌پایان)</button>
         <button class="btn btn-sec" onclick="openStagesMenu()">🗺️ حالت مرحله‌ای (۱۰۰ مرحله)</button>
       </div>
-      <div style="margin-top:14px;font-size:12px;color:#aaa">
-        رکورد سطح <span id="menu-diff-name" style="color:var(--accent);font-weight:700">آسان</span>: <b id="menu-diff-best" style="color:#fff">۰</b>
+      <div style="margin-top:10px;font-size:11.5px;color:#aaa">
+        رکورد سطح <span id="menu-diff-name" style="color:var(--accent);font-weight:700">آسان</span>: <b id="menu-diff-best" style="color:#fff">۰</b> ثانیه
       </div>
     </div>
 
-    <!-- منوی انتخاب مرحله (۱۰۰ مرحله) -->
+    <!-- منوی انتخاب مرحله (۱۰۰ مرحله با هزینه کرم تجمعی) -->
     <div id="ov-stages" class="overlay" hidden>
       <div class="stages-header">
-        <span style="font-weight:800;font-size:16px;color:var(--accent)">مراحل سطح <span id="st-diff-lbl">آسان</span></span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-weight:800;font-size:15px;color:var(--accent)">مراحل <span id="st-diff-lbl">آسان</span></span>
+          <span style="font-size:11px;color:#70d6ff">کل کرم‌ها: <b id="st-total-worms">۰</b> 🪱</span>
+        </div>
         <button class="icon-btn" onclick="showOverlay('ov-main')">بازگشت ↩</button>
       </div>
       <div class="stages-grid" id="stages-grid"></div>
     </div>
 
+    <!-- منوی درباره سازنده -->
+    <div id="ov-creator" class="overlay" hidden>
+      <div class="stages-header">
+        <span style="font-weight:800;font-size:16px;color:var(--accent)">👨‍💻 درباره سازنده</span>
+        <button class="icon-btn" onclick="closeCreatorModal()">بازگشت ↩</button>
+      </div>
+      <div class="panel-box" style="text-align:center;gap:12px;align-items:center;">
+        <div style="background:rgba(242,178,74,0.1);border:1px solid rgba(242,178,74,0.3);width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin:4px auto 0;">👨‍💻</div>
+        <h3 style="margin:0;color:var(--accent);font-size:18px;font-weight:800;">Alireza Afzali</h3>
+        <p style="margin:0;font-size:12px;color:#d6cbb5;">طراح و توسعه‌دهنده بازی جنگل فانوس</p>
+        <div style="display:flex;flex-direction:column;gap:8px;width:100%;margin-top:6px;">
+          <a class="shop-card" href="https://t.me/+989162624510" target="_blank" style="text-decoration:none;justify-content:center;background:rgba(0,136,204,0.15);border-color:rgba(0,136,204,0.3);padding:10px;">
+            <span style="color:#229ED9;font-weight:800;font-size:13px;">🔵 تلگرام</span>
+          </a>
+          <a class="shop-card" href="https://instagram.com/alireza.afzali.8" target="_blank" style="text-decoration:none;justify-content:space-between;background:rgba(225,48,108,0.15);border-color:rgba(225,48,108,0.3);padding:10px;">
+            <span style="color:#ff75b3;font-weight:800;font-size:13px;">📸 اینستاگرام</span>
+            <span style="font-size:11px;color:#bbb;direction:ltr;">@alireza.afzali.8</span>
+          </a>
+          <a class="shop-card" href="mailto:alireza84afzali@gmail.com" style="text-decoration:none;justify-content:space-between;background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.1);padding:10px;">
+            <span style="color:var(--accent);font-weight:800;font-size:13px;">📧 ایمیل</span>
+            <span style="font-size:11px;color:#bbb;">alireza84afzali@gmail.com</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- منوی تنظیمات -->
     <div id="ov-settings" class="overlay" hidden>
       <div class="stages-header">
-        <span style="font-weight:800;font-size:17px;color:var(--accent)">⚙️ تنظیمات بازی</span>
+        <span style="font-weight:800;font-size:16px;color:var(--accent)">⚙️ تنظیمات بازی</span>
         <button class="icon-btn" onclick="closeSettings()">تأیید و بازگشت</button>
       </div>
-      <div class="settings-box">
-        <!-- اسلایدر سرعت حرکت فانوس -->
+      <div class="panel-box">
+        <!-- سرعت فانوس -->
         <div class="set-row">
           <div class="set-label">
             <span>سرعت حرکت فانوس:</span>
@@ -164,7 +235,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6p
           </div>
         </div>
 
-        <!-- انتخاب دکمه انفجار در ویندوز -->
+        <!-- دکمه انفجار -->
         <div class="set-row">
           <div class="set-label"><span>دکمه انفجار در کیبورد (ویندوز):</span></div>
           <div class="key-options" id="key-options">
@@ -175,7 +246,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6p
           </div>
         </div>
 
-        <!-- رنگ فانوس به صورت بیضی -->
+        <!-- رنگ فانوس -->
         <div class="set-row">
           <div class="set-label"><span>رنگ نور فانوس:</span></div>
           <div class="color-ovals" id="color-ovals">
@@ -188,13 +259,13 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6p
           </div>
         </div>
 
-        <!-- صدای شب جنگلی و جیرجیرک -->
+        <!-- صدا -->
         <div class="set-row">
           <div class="set-label">
             <span>صدای آرام شب و جیرجیرک:</span>
-            <span id="vol-val-lbl" style="color:var(--accent)">۴۰٪</span>
+            <span id="vol-val-lbl" style="color:var(--accent)">۵۰٪</span>
           </div>
-          <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.4" oninput="updateAudioVolume(this.value)">
+          <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.5" oninput="updateAudioVolume(this.value)">
           <div class="slider-ticks">
             <span>خاموش</span>
             <span>ملایم</span>
@@ -204,20 +275,92 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6p
       </div>
     </div>
 
-    <!-- منوی توقف (Pause) -->
+    <!-- منوی فروشگاه -->
+    <div id="ov-shop" class="overlay" hidden>
+      <div class="stages-header">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-weight:800;font-size:16px;color:var(--accent)">🛒 فروشگاه درون‌بازی</span>
+          <div class="currency-badge">💎 <span id="shop-diamond-count">۰</span></div>
+        </div>
+        <button class="icon-btn" onclick="closeShop()">بازگشت ↩</button>
+      </div>
+      <div class="panel-box shop-grid">
+        <div class="shop-card">
+          <div class="shop-info">
+            <h4>💥 ابر انفجار</h4>
+            <p>پاکسازی کل صفحه و ۱۰ ثانیه نور مطلق</p>
+          </div>
+          <div class="shop-action">
+            <button class="buy-btn" onclick="buyItem('superBlast', 5)">خرید (💎 ۵)</button>
+            <span class="item-count">دارایی: <b id="inv-super">۰</b></span>
+          </div>
+        </div>
+
+        <div class="shop-card">
+          <div class="shop-info">
+            <h4>💾 سیو اضافه مرحله</h4>
+            <p>ذخیره پیشرفت در مرحله (قابل فعال‌سازی)</p>
+          </div>
+          <div class="shop-action">
+            <button class="buy-btn" onclick="buyItem('extraSave', 4)">خرید (💎 ۴)</button>
+            <span class="item-count">دارایی: <b id="inv-extra">۰</b></span>
+          </div>
+        </div>
+
+        <div class="shop-card">
+          <div class="shop-info">
+            <h4>🛡️ زره حفاظتی</h4>
+            <p>۱۵ ثانیه مصونیت کامل در برابر سایه‌ها</p>
+          </div>
+          <div class="shop-action">
+            <button class="buy-btn" onclick="buyItem('shield', 3)">خرید (💎 ۳)</button>
+            <span class="item-count">دارایی: <b id="inv-shield">۰</b></span>
+          </div>
+        </div>
+
+        <div class="shop-card">
+          <div class="shop-info">
+            <h4>❤️ جان اضافه</h4>
+            <p>ادامه بازی بعد از خاموش شدن نور</p>
+          </div>
+          <div class="shop-action">
+            <button class="buy-btn" onclick="buyItem('extraLife', 4)">خرید (💎 ۴)</button>
+            <span class="item-count">دارایی: <b id="inv-life">۰</b></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- منوی توقف (Pause) با دسترسی به تنظیمات -->
     <div id="ov-pause" class="overlay" hidden>
-      <h2 style="margin:0 0 8px;color:var(--accent);font-size:24px">بازی متوقف شد ⏸</h2>
-      <p style="margin:0 0 18px;font-size:13.5px;color:#ccc">می‌توانید بازی را ادامه دهید یا با ذخیره امتیاز به منو برگردید.</p>
+      <h2 style="margin:0 0 6px;color:var(--accent);font-size:23px">بازی متوقف شد ⏸</h2>
+      <p style="margin:0 0 16px;font-size:13px;color:#ccc">می‌توانید بازی را ادامه دهید، تنظیمات را تغییر دهید یا خارج شوید.</p>
       <div class="btn-group">
         <button class="btn" onclick="resumeGame()">▶ ادامه بازی</button>
+        <button class="btn btn-sec" onclick="openSettingsFromPause()">⚙️ تنظیمات</button>
         <button class="btn btn-sec" onclick="saveAndQuit()">💾 ذخیره رکورد و خروج به منو</button>
       </div>
     </div>
 
-    <!-- منوی پایان بازی (برد یا باخت) -->
+    <!-- منوی پایان بازی -->
     <div id="ov-end" class="overlay" hidden>
-      <h2 id="end-ttl" style="margin:0 0 6px;color:var(--accent);font-size:25px">پایان بازی</h2>
-      <p id="end-txt" style="margin:0 0 18px;font-size:14px;max-width:310px"></p>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="font-size:28px">💔</span>
+        <h2 id="end-ttl" style="margin:0;color:var(--accent);font-size:23px">نورت خاموش شد 🕯️</h2>
+      </div>
+      <p id="end-txt" style="margin:0 0 12px;font-size:13px;max-width:300px;color:#e5d8be"></p>
+      
+      <!-- باکس استفاده از جان اضافه -->
+      <div id="revive-section" style="width:100%;max-width:260px;margin-bottom:12px">
+        <div class="shop-card" style="padding:8px 10px">
+          <div class="shop-info" style="text-align:right">
+            <h4 style="font-size:12px;margin:0">❤️ جان اضافه (<span id="revive-count">۰</span>)</h4>
+            <p style="font-size:10px;margin:0">استفاده برای ادامه بازی</p>
+          </div>
+          <button class="buy-btn" id="revive-buy-btn" onclick="useExtraLifeRevive()">استفاده</button>
+        </div>
+      </div>
+
       <div class="btn-group">
         <button class="btn" id="end-primary-btn">تلاش مجدد</button>
         <button class="btn btn-sec" onclick="exitToMainMenu()">بازگشت به منوی اصلی</button>
@@ -227,9 +370,10 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:6p
   </div>
 </div>
 
-<div id="foot">
+<div id="foot" style="display:none">
   <button id="pulse" onclick="doPulse()">انفجار (<span id="key-badge">F</span>)</button>
-  <button id="save-stage-btn" onclick="saveStageCheckpoint()">💾 ذخیره (۱ بار)</button>
+  <button class="extra-btn" id="save-stage-btn" onclick="saveStageCheckpoint()">💾 ذخیره مرحله</button>
+  <button class="extra-btn" id="extra-save-btn" onclick="useInGameExtraSave()" style="display:none;background:rgba(112,214,255,.15);color:#70d6ff;border-color:#70d6ff">💾 سیو اضافه</button>
 </div>
 
 <script>
@@ -239,33 +383,52 @@ cv.width=W;cv.height=H;
 const $=id=>document.getElementById(id);
 const rnd=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),fa=n=>Math.floor(n).toLocaleString('fa-IR');
 
-// --- مدیریت ذخیره‌سازی و تنظیمات ---
 let saveData = {
   best: {1:0, 2:0, 3:0},
   unlockedStage: {1:1, 2:1, 3:1},
-  diamonds: 0,
+  diamonds: 15,
+  totalWorms: 0,
+  inventory: {
+    superBlast: 2,
+    extraSave: 1,
+    shield: 2,
+    extraLife: 2
+  },
   settings: {
     speedMul: 1.0,
     blastKey: 'KeyF',
     blastKeyLabel: 'F',
     lanternColor: 'gold',
-    volume: 0.4
+    volume: 0.5
   }
 };
 
 try {
-  const raw = localStorage.getItem('fanos_pro_v1');
+  const raw = localStorage.getItem('fanos_pro_v2');
   if(raw) {
     const parsed = JSON.parse(raw);
-    saveData = {...saveData, ...parsed, best:{...saveData.best,...parsed.best}, unlockedStage:{...saveData.unlockedStage,...parsed.unlockedStage}, settings:{...saveData.settings,...parsed.settings}};
+    saveData = {...saveData, ...parsed, 
+      best:{...saveData.best,...parsed.best}, 
+      unlockedStage:{...saveData.unlockedStage,...parsed.unlockedStage}, 
+      inventory:{...saveData.inventory,...parsed.inventory},
+      settings:{...saveData.settings,...parsed.settings}
+    };
   }
 } catch(e){}
 
 function persist(){
-  try { localStorage.setItem('fanos_pro_v1', JSON.stringify(saveData)); } catch(e){}
+  try { localStorage.setItem('fanos_pro_v2', JSON.stringify(saveData)); } catch(e){}
+  updateInventoryHUD();
 }
 
-// --- موتور صدای آرام شب جنگلی و جیرجیرک (Web Audio API) ---
+function showToast(msg){
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove('show'), 2200);
+}
+
 let audioCtx = null, cricketInterval = null, nightGain = null;
 function initAudio(){
   if(audioCtx) return;
@@ -273,16 +436,15 @@ function initAudio(){
   if(!AudioContext) return;
   audioCtx = new AudioContext();
 
-  // صدای ملایم نسیم شب (Pink/Brown Noise)
   const bufferSize = 2 * audioCtx.sampleRate;
   const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
   const output = noiseBuffer.getChannelData(0);
   let lastOut = 0.0;
   for (let i = 0; i < bufferSize; i++) {
     const white = Math.random() * 2 - 1;
-    output[i] = (lastOut + (0.02 * white)) / 1.02;
+    output[i] = (lastOut + (0.025 * white)) / 1.025;
     lastOut = output[i];
-    output[i] *= 0.15;
+    output[i] *= 0.18;
   }
   const whiteNoise = audioCtx.createBufferSource();
   whiteNoise.buffer = noiseBuffer;
@@ -290,45 +452,44 @@ function initAudio(){
 
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'lowpass';
-  filter.frequency.value = 280;
+  filter.frequency.value = 320;
 
   nightGain = audioCtx.createGain();
-  nightGain.gain.value = saveData.settings.volume * 0.25;
+  nightGain.gain.value = saveData.settings.volume * 0.3;
 
   whiteNoise.connect(filter);
   filter.connect(nightGain);
   nightGain.connect(audioCtx.destination);
   whiteNoise.start(0);
 
-  // صدای جیرجیرک‌های آرام جنگلی
   cricketInterval = setInterval(()=>{
     if(!audioCtx || audioCtx.state !== 'running' || saveData.settings.volume <= 0.01) return;
-    if(Math.random() > 0.55) return;
-    playCricketChirp();
-  }, 1800);
+    if(Math.random() > 0.5) return;
+    playResonantCricket();
+  }, 1400);
 }
 
-function playCricketChirp(){
+function playResonantCricket(){
   if(!audioCtx) return;
   const now = audioCtx.currentTime;
-  const pulses = 2 + Math.floor(Math.random()*2);
-  const baseFreq = 3800 + Math.random()*500;
-  for(let i=0; i<pulses; i++){
+  const chirps = 3 + Math.floor(Math.random()*2);
+  const baseFreq = 4200 + Math.random()*600;
+  for(let i=0; i<chirps; i++){
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(baseFreq, now + i*0.09);
-    osc.frequency.exponentialRampToValueAtTime(baseFreq - 250, now + i*0.09 + 0.06);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(baseFreq, now + i*0.075);
+    osc.frequency.exponentialRampToValueAtTime(baseFreq - 350, now + i*0.075 + 0.05);
 
-    const vol = saveData.settings.volume * 0.035;
-    gain.gain.setValueAtTime(0.0001, now + i*0.09);
-    gain.gain.exponentialRampToValueAtTime(Math.max(0.0002, vol), now + i*0.09 + 0.015);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + i*0.09 + 0.065);
+    const vol = saveData.settings.volume * 0.05;
+    gain.gain.setValueAtTime(0.0001, now + i*0.075);
+    gain.gain.exponentialRampToValueAtTime(Math.max(0.0002, vol), now + i*0.075 + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + i*0.075 + 0.055);
 
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-    osc.start(now + i*0.09);
-    osc.stop(now + i*0.09 + 0.07);
+    osc.start(now + i*0.075);
+    osc.stop(now + i*0.075 + 0.06);
   }
 }
 
@@ -337,7 +498,6 @@ function ensureAudioRunning(){
   if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 }
 
-// --- رنگ‌های فانوس ---
 const lanternColors = {
   gold:   {rgb:'255, 205, 105', core:'#fff9e6', name:'طلایی'},
   red:    {rgb:'255, 95, 95',   core:'#ffe6e6', name:'قرمز'},
@@ -349,19 +509,17 @@ const lanternColors = {
 
 const diffNames = {1:'آسان', 2:'متوسط', 3:'سخت'};
 
-// --- متغیرهای وضعیت بازی ---
-let state = 'menu'; // menu, play, pause, over
-let mode = 'endless'; // endless, stages
+let state = 'menu';
+let mode = 'endless';
 let diff = 1;
 let currentStage = 1;
 
 let MAXL = 190, MINL = 26;
 let p, flies, shades, parts, score, t=0, light, spawn, cd, pulse, shake;
-let stageTimeLeft = 0, stageGoal = 120, stageSavedUsed = false, stageCheckpointScore = 0, stageCheckpointTime = 0;
-let lastDiamondMilestone = 0;
+let stageTimeLeft = 0, stageGoal = 100, stageSavedUsed = false, stageCheckpointScore = 0, stageCheckpointTime = 0;
+let shieldTimer = 0, superBlastTimer = 0;
 let mouse = {x:W/2, y:H*.7, on:false}, keys = {};
 
-// پس‌زمینه جنگل
 const bg = document.createElement('canvas'); bg.width=W; bg.height=H;
 (()=>{
   const b = bg.getContext('2d');
@@ -385,30 +543,39 @@ const bg = document.createElement('canvas'); bg.width=W; bg.height=H;
   }
 })();
 
-function showToast(msg){
-  const el = $('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(el._t);
-  el._t = setTimeout(()=>el.classList.remove('show'), 2200);
+function getStageCumulativeCost(stNum){
+  let totalRequired = 0;
+  for(let s = 1; s < stNum; s++){
+    const block = Math.floor((s - 1) / 5);
+    const blockGoal = 100 + block * 35;
+    totalRequired += blockGoal;
+  }
+  return totalRequired;
 }
 
-// --- فرمول محاسبه تعداد کرم و زمان برای ۱۰۰ مرحله ---
-function getStageParams(st){
-  // مرحله ۱: ۱۲۰ کرم، رشد ملایم و منطقی تا مرحله ۱۰۰
-  const goal = Math.round(120 + (st - 1) * 14 + Math.pow(st - 1, 1.15) * 2);
-  // زمان چالشی اما منصفانه (حدود ۱.۳ ثانیه به ازای هر کرم + ضریب سختی)
-  const diffFactor = diff === 1 ? 1.35 : (diff === 2 ? 1.2 : 1.08);
-  const time = Math.round(goal * diffFactor + 18);
+function getStageParams(stNum){
+  const block = Math.floor((stNum - 1) / 5);
+  const goal = 100 + block * 35;
+  const time = Math.round(goal * 0.85 + 25);
   return {goal, time};
 }
 
-// --- مدیریت منوها و UI ---
 window.showOverlay = function(id){
-  ['ov-main','ov-stages','ov-settings','ov-pause','ov-end'].forEach(oid=>{
+  ['ov-main','ov-stages','ov-settings','ov-shop','ov-pause','ov-end','ov-creator'].forEach(oid=>{
     $(oid).hidden = (oid !== id);
   });
   updateMainMenuStats();
+};
+
+window.openCreatorModal = function(){
+  ensureAudioRunning();
+  showOverlay('ov-creator');
+};
+
+window.closeCreatorModal = function(){
+  if(state === 'menu') showOverlay('ov-main');
+  else if(state === 'pause') showOverlay('ov-pause');
+  else showOverlay('ov-end');
 };
 
 window.setDiff = function(d){
@@ -424,7 +591,9 @@ function updateMainMenuStats(){
   $('menu-diff-name').textContent = diffNames[diff];
   $('menu-diff-best').textContent = fa(saveData.best[diff] || 0);
   $('diamond-count').textContent = fa(saveData.diamonds || 0);
+  $('total-worms-badge').textContent = fa(saveData.totalWorms || 0);
   $('bs').textContent = fa(saveData.best[diff] || 0);
+  updateShopUI();
 }
 
 window.openSettings = function(){
@@ -445,7 +614,12 @@ window.openSettings = function(){
 
 window.closeSettings = function(){
   persist();
-  showOverlay('ov-main');
+  if(state === 'pause') showOverlay('ov-pause');
+  else showOverlay('ov-main');
+};
+
+window.openSettingsFromPause = function(){
+  openSettings();
 };
 
 function updateSpeedLabel(v){
@@ -489,24 +663,62 @@ window.updateAudioVolume = function(v){
   saveData.settings.volume = parseFloat(v);
   updateVolLabel(v);
   if(nightGain && audioCtx){
-    nightGain.gain.setTargetAtTime(saveData.settings.volume * 0.25, audioCtx.currentTime, 0.1);
+    nightGain.gain.setTargetAtTime(saveData.settings.volume * 0.3, audioCtx.currentTime, 0.1);
   }
 };
 
-// --- منوی ۱۰۰ مرحله ---
+window.openShop = function(){
+  ensureAudioRunning();
+  updateShopUI();
+  showOverlay('ov-shop');
+};
+
+window.closeShop = function(){
+  persist();
+  showOverlay('ov-main');
+};
+
+function updateShopUI(){
+  $('shop-diamond-count').textContent = fa(saveData.diamonds || 0);
+  $('inv-super').textContent = fa(saveData.inventory.superBlast || 0);
+  $('inv-extra').textContent = fa(saveData.inventory.extraSave || 0);
+  $('inv-shield').textContent = fa(saveData.inventory.shield || 0);
+  $('inv-life').textContent = fa(saveData.inventory.extraLife || 0);
+}
+
+window.buyItem = function(itemKey, cost){
+  if(saveData.diamonds >= cost){
+    saveData.diamonds -= cost;
+    saveData.inventory[itemKey] = (saveData.inventory[itemKey] || 0) + 1;
+    persist();
+    updateShopUI();
+    showToast('خرید با موفقیت انجام شد! 🎉');
+  } else {
+    showToast('💎 الماس کافی ندارید!');
+  }
+};
+
 window.openStagesMenu = function(){
   ensureAudioRunning();
   $('st-diff-lbl').textContent = diffNames[diff];
+  $('st-total-worms').textContent = fa(saveData.totalWorms || 0);
   const grid = $('stages-grid');
   grid.innerHTML = '';
   const maxUnlocked = saveData.unlockedStage[diff] || 1;
+
   for(let i=1; i<=100; i++){
     const cell = document.createElement('div');
-    const isLocked = i > maxUnlocked;
+    const cost = getStageCumulativeCost(i);
+    const hasEnoughWorms = (saveData.totalWorms || 0) >= cost;
+    const isUnlocked = i <= maxUnlocked || (hasEnoughWorms && i === maxUnlocked);
     const isDone = i < maxUnlocked;
-    cell.className = 'stage-cell' + (isLocked ? ' locked' : '') + (isDone ? ' done' : '');
-    cell.innerHTML = isLocked ? '🔒' : `<span>${fa(i)}</span>`;
-    if(!isLocked){
+
+    cell.className = 'stage-cell' + (!isUnlocked ? ' locked' : '') + (isDone ? ' done' : '');
+    
+    if(!isUnlocked){
+      cell.innerHTML = `<span>🔒 ${fa(i)}</span><span class="stage-cost">${fa(cost)} 🪱</span>`;
+    } else {
+      cell.innerHTML = `<span>${fa(i)}</span>${cost > 0 ? `<span class="stage-cost">✓ ${fa(cost)}</span>`:''}`;
       cell.onclick = ()=> startStageLevel(i);
     }
     grid.appendChild(cell);
@@ -514,7 +726,6 @@ window.openStagesMenu = function(){
   showOverlay('ov-stages');
 };
 
-// --- شروع بازی‌ها ---
 function resetEntities(){
   p = {x:W/2, y:H*.72};
   light = 155;
@@ -524,6 +735,8 @@ function resetEntities(){
   cd = 0;
   pulse = null;
   shake = 0;
+  shieldTimer = 0;
+  superBlastTimer = 0;
   flies = [];
   shades = [];
   parts = [];
@@ -534,13 +747,14 @@ window.startEndless = function(){
   ensureAudioRunning();
   mode = 'endless';
   resetEntities();
-  lastDiamondMilestone = 0;
   $('hud-lbl').textContent = 'کرم:';
-  $('hud-right-box').innerHTML = `<span>رکورد:</span> <b id="bs">${fa(saveData.best[diff]||0)}</b>`;
+  $('hud-right-box').innerHTML = `<span>ثانیه:</span> <b id="bs">۰</b>`;
   $('save-stage-btn').style.display = 'none';
+  $('extra-save-btn').style.display = 'none';
+  $('ingame-items').hidden = false;
+  updateInventoryHUD();
   state = 'play';
-  ['ov-main','ov-stages','ov-settings','ov-pause','ov-end'].forEach(oid=>$(oid).hidden=true);
-  updateHUD();
+  ['ov-main','ov-stages','ov-settings','ov-shop','ov-pause','ov-end','ov-creator'].forEach(oid=>$(oid).hidden=true);
 };
 
 window.startStageLevel = function(stNum){
@@ -555,19 +769,71 @@ window.startStageLevel = function(stNum){
   stageCheckpointScore = 0;
   stageCheckpointTime = params.time;
 
-  $('hud-lbl').textContent = `مرحله ${fa(stNum)}:`;
+  $('hud-lbl').textContent = `مرحله ${fa(stNum)} (${fa(stageGoal)} کرم):`;
   $('hud-right-box').innerHTML = `<span>زمان:</span> <b id="st-timer">${fa(stageTimeLeft)}</b>`;
+  
   const saveBtn = $('save-stage-btn');
   saveBtn.style.display = 'inline-block';
   saveBtn.disabled = false;
-  saveBtn.textContent = '💾 ذخیره (۱ بار)';
+  saveBtn.textContent = '💾 ذخیره مرحله';
 
+  const extraSaveBtn = $('extra-save-btn');
+  extraSaveBtn.style.display = saveData.inventory.extraSave > 0 ? 'inline-block' : 'none';
+
+  $('ingame-items').hidden = false;
+  updateInventoryHUD();
   state = 'play';
-  ['ov-main','ov-stages','ov-settings','ov-pause','ov-end'].forEach(oid=>$(oid).hidden=true);
-  updateHUD();
+  ['ov-main','ov-stages','ov-settings','ov-shop','ov-pause','ov-end','ov-creator'].forEach(oid=>$(oid).hidden=true);
 };
 
-// --- دکمه ذخیره یک‌بار در هر مرحله ---
+function updateInventoryHUD(){
+  $('cnt-shield').textContent = fa(saveData.inventory.shield || 0);
+  $('cnt-super').textContent = fa(saveData.inventory.superBlast || 0);
+  $('cnt-extra').textContent = fa(saveData.inventory.extraSave || 0);
+
+  ['shield','super','extra'].forEach(k=>{
+    const el = $(`hud-item-${k}`);
+    if(el){
+      const count = k==='shield'?saveData.inventory.shield:(k==='super'?saveData.inventory.superBlast:saveData.inventory.extraSave);
+      el.classList.toggle('active', count > 0);
+    }
+  });
+}
+
+window.useInGameShield = function(){
+  if(state === 'play' && (saveData.inventory.shield || 0) > 0 && shieldTimer <= 0){
+    saveData.inventory.shield--;
+    shieldTimer = 15;
+    persist();
+    updateInventoryHUD();
+    showToast('🛡️ زره حفاظتی فعال شد! (۱۵ ثانیه)');
+    burst(p.x, p.y, 25, '112, 214, 255');
+  }
+};
+
+window.useInGameSuperBlast = function(){
+  if(state === 'play' && (saveData.inventory.superBlast || 0) > 0){
+    saveData.inventory.superBlast--;
+    superBlastTimer = 10;
+    shades = [];
+    persist();
+    updateInventoryHUD();
+    showToast('💥 ابر انفجار فعال شد! (۱۰ ثانیه روشنایی مطلق)');
+    burst(p.x, p.y, 40, '255, 215, 105');
+  }
+};
+
+window.useInGameExtraSave = function(){
+  if(state === 'play' && mode === 'stages' && (saveData.inventory.extraSave || 0) > 0){
+    saveData.inventory.extraSave--;
+    stageCheckpointScore = score;
+    stageCheckpointTime = stageTimeLeft;
+    persist();
+    updateInventoryHUD();
+    showToast('💾 سیو اضافه با موفقیت انجام شد!');
+  }
+};
+
 window.saveStageCheckpoint = function(){
   if(state !== 'play' || mode !== 'stages' || stageSavedUsed) return;
   stageSavedUsed = true;
@@ -591,7 +857,6 @@ function restoreStageCheckpoint(){
   showToast('بازی از نقطه ذخیره بازیابی شد!');
 }
 
-// --- توقف و بازگشت به منو ---
 window.togglePause = function(){
   if(state === 'play'){
     state = 'pause';
@@ -625,7 +890,6 @@ window.exitToMainMenu = function(){
   showOverlay('ov-main');
 };
 
-// --- مکانیک‌های بازی ---
 function glow(x,y,r,rgb,a){
   const q = g.createRadialGradient(x,y,0,x,y,r);
   q.addColorStop(0,'rgba('+rgb+','+a+')');
@@ -674,7 +938,7 @@ function updateHUD(){
   } else {
     $('sc').textContent = fa(score);
     const bEl = $('bs');
-    if(bEl) bEl.textContent = fa(Math.max(score, saveData.best[diff]||0));
+    if(bEl) bEl.textContent = fa(Math.floor(t));
   }
   $('bar').style.width = cl((light-MINL)/(MAXL-MINL), 0, 1)*100 + '%';
   const pb = $('pulse');
@@ -682,68 +946,110 @@ function updateHUD(){
   pb.innerHTML = cd > 0 ? `انفجار (${fa(Math.ceil(cd))})` : `انفجار (<span id="key-badge">${saveData.settings.blastKeyLabel}</span>)`;
 }
 
-function handleGameOver(win, reason){
+function handleGameOver(){
   state = 'over';
+  $('ingame-items').hidden = true;
+
+  if(score > 0){
+    saveData.totalWorms = (saveData.totalWorms || 0) + score;
+  }
+
+  const lifeCount = saveData.inventory.extraLife || 0;
+  $('revive-count').textContent = fa(lifeCount);
+  const reviveBtn = $('revive-buy-btn');
+  reviveBtn.disabled = lifeCount <= 0;
+  reviveBtn.style.opacity = lifeCount > 0 ? '1' : '0.4';
+
   const primaryBtn = $('end-primary-btn');
 
   if(mode === 'stages'){
-    if(win){
+    $('end-ttl').textContent = 'نورت خاموش شد 🕯️';
+    $('end-txt').textContent = `در مرحله ${fa(currentStage)} نتوانستی به هدف برسی. تو می‌تونی دوباره تلاش کنی!`;
+    if(stageSavedUsed && stageCheckpointScore > 0){
+      primaryBtn.textContent = `ادامه از نقطه ذخیره (${fa(stageCheckpointScore)} کرم)`;
+      primaryBtn.onclick = ()=> restoreStageCheckpoint();
+    } else {
+      primaryBtn.textContent = 'تلاش مجدد این مرحله';
+      primaryBtn.onclick = ()=> startStageLevel(currentStage);
+    }
+  } else {
+    const prevBest = saveData.best[diff] || 0;
+    const finalSec = Math.floor(t);
+    const isRec = finalSec > prevBest;
+    if(isRec){
+      saveData.best[diff] = finalSec;
+    }
+    persist();
+    $('end-ttl').textContent = 'نورت خاموش شد 🕯️';
+    $('end-txt').textContent = `در سطح ${diffNames[diff]} توانستی ${fa(score)} کرم جمع کنی و ${fa(finalSec)} ثانیه دوام بیاوری!` + (isRec ? ' 🏆 رکورد جدید ثانیه ثبت شد!' : '');
+    primaryBtn.textContent = 'شروع دوباره';
+    primaryBtn.onclick = ()=> startEndless();
+  }
+  persist();
+  showOverlay('ov-end');
+}
+
+window.useExtraLifeRevive = function(){
+  if((saveData.inventory.extraLife || 0) > 0){
+    saveData.inventory.extraLife--;
+    persist();
+    light = 150;
+    shieldTimer = 5;
+    state = 'play';
+    $('ov-end').hidden = true;
+    $('ingame-items').hidden = false;
+    showToast('❤️ جان اضافه مصرف شد! به بازی برگشتی.');
+  }
+};
+
+function step(dt){
+  t += dt;
+
+  if(mode === 'stages'){
+    stageTimeLeft -= dt;
+    if(score >= stageGoal){
       if(currentStage >= (saveData.unlockedStage[diff]||1) && currentStage < 100){
         saveData.unlockedStage[diff] = currentStage + 1;
       }
       persist();
-      $('end-ttl').textContent = `مرحله ${fa(currentStage)} با موفقیت رد شد! 🎉`;
-      $('end-txt').textContent = `عالی بود! توانستی ${fa(score)} کرم شب‌تاب را در زمان مقرر جمع کنی.`;
+      state = 'over';
+      $('ingame-items').hidden = true;
+      $('end-ttl').textContent = `مرحله ${fa(currentStage)} کامل شد! 🎉`;
+      $('end-txt').textContent = `عالی بود! ${fa(score)} کرم جمع کردی.`;
+      const primaryBtn = $('end-primary-btn');
       if(currentStage < 100){
-        primaryBtn.textContent = `رفتن به مرحله ${fa(currentStage+1)} ➔`;
+        primaryBtn.textContent = `مرحله بعد (${fa(currentStage+1)}) ➔`;
         primaryBtn.onclick = ()=> startStageLevel(currentStage + 1);
       } else {
         primaryBtn.textContent = 'بازگشت به لیست مراحل';
         primaryBtn.onclick = ()=> openStagesMenu();
       }
-    } else {
-      $('end-ttl').textContent = reason === 'time' ? 'زمان تمام شد! ⏳' : 'نورت خاموش شد! 🕯️';
-      $('end-txt').textContent = `در مرحله ${fa(currentStage)} فقط ${fa(score)} از ${fa(stageGoal)} کرم را جمع کردی.`;
-      if(stageSavedUsed && stageCheckpointScore > 0){
-        primaryBtn.textContent = `ادامه از نقطه ذخیره (${fa(stageCheckpointScore)} کرم)`;
-        primaryBtn.onclick = ()=> restoreStageCheckpoint();
-      } else {
-        primaryBtn.textContent = 'تلاش مجدد این مرحله';
-        primaryBtn.onclick = ()=> startStageLevel(currentStage);
-      }
-    }
-  } else {
-    const prevBest = saveData.best[diff] || 0;
-    const isRec = score > prevBest && score > 0;
-    if(isRec){
-      saveData.best[diff] = score;
-    }
-    persist();
-    $('end-ttl').textContent = 'نورت خاموش شد 🕯️';
-    $('end-txt').textContent = `در سطح ${diffNames[diff]} توانستی ${fa(score)} کرم جمع کنی` + (isRec ? ' و رکورد جدید ثبت شد! 🏆' : '.');
-    primaryBtn.textContent = 'شروع دوباره';
-    primaryBtn.onclick = ()=> startEndless();
-  }
-  showOverlay('ov-end');
-}
-
-function step(dt){
-  t += dt;
-
-  // تایمر و شرط برد در حالت مرحله‌ای
-  if(mode === 'stages'){
-    stageTimeLeft -= dt;
-    if(score >= stageGoal){
-      handleGameOver(true);
+      showOverlay('ov-end');
       return;
     }
     if(stageTimeLeft <= 0){
-      handleGameOver(false, 'time');
+      handleGameOver();
       return;
     }
   }
 
-  // سرعت حرکت فانوس با احتساب تنظیمات کاربر
+  if(mode === 'endless'){
+    const diamondMilestone = Math.floor(score / 100);
+    if(diamondMilestone > (saveData._lastDiamond || 0)){
+      saveData._lastDiamond = diamondMilestone;
+      saveData.diamonds = (saveData.diamonds || 0) + 1;
+      persist();
+      showToast('💎 تبریک! ۱ الماس هدیه بابت هر ۱۰۰ کرم!');
+      burst(p.x, p.y, 25, '90, 215, 255');
+    }
+  }
+
+  if(shieldTimer > 0) shieldTimer -= dt;
+  if(superBlastTimer > 0){
+    superBlastTimer -= dt;
+    light = Math.max(light, MAXL);
+  }
+
   const baseSpd = diff === 3 ? 285 : (diff === 2 ? 260 : 235);
   const spd = baseSpd * saveData.settings.speedMul;
 
@@ -762,11 +1068,11 @@ function step(dt){
   p.x = cl(p.x, 16, W-16);
   p.y = cl(p.y, 16, H-16);
 
-  // کاهش تدریجی نور
   const drainRate = diff === 3 ? 7.2 : (diff === 2 ? 5.8 : 4.6);
-  light -= dt * (drainRate + Math.min(score, 60) * 0.08);
+  if(superBlastTimer <= 0){
+    light -= dt * (drainRate + Math.min(score, 60) * 0.08);
+  }
 
-  // جمع‌آوری کرم‌های شب‌تاب
   const colRgb = (lanternColors[saveData.settings.lanternColor] || lanternColors.gold).rgb;
   for(const f of flies){
     f.ph += dt * f.s;
@@ -775,46 +1081,42 @@ function step(dt){
     if(Math.hypot(f.x-p.x, f.y-p.y) < 26){
       f.dead = 1;
       score++;
+      saveData.totalWorms = (saveData.totalWorms || 0) + 1;
       light = Math.min(MAXL, light + 17);
       burst(f.x, f.y, 12, '255, 220, 120');
-
-      // جایزه الماس در حالت رکوردی به ازای هر ۱۵۰ کرم
-      if(mode === 'endless' && Math.floor(score / 150) > lastDiamondMilestone){
-        lastDiamondMilestone = Math.floor(score / 150);
-        saveData.diamonds = (saveData.diamonds || 0) + 1;
-        persist();
-        showToast('💎 تبریک! ۱ الماس هدیه گرفتید!');
-        burst(p.x, p.y, 25, '90, 215, 255');
-      }
     }
   }
   flies = flies.filter(f=>!f.dead);
   const targetFlies = mode === 'stages' ? 8 : 7;
   while(flies.length < targetFlies) addFly();
 
-  // تولید و حرکت دشمنان
-  spawn -= dt;
-  const spawnInterval = Math.max(0.55, (diff === 3 ? 1.5 : (diff === 2 ? 1.9 : 2.3)) - Math.min(score, 150)*0.005);
-  if(spawn <= 0){
-    addShade();
-    spawn = spawnInterval;
-  }
+  if(superBlastTimer <= 0){
+    spawn -= dt;
+    const spawnInterval = Math.max(0.55, (diff === 3 ? 1.5 : (diff === 2 ? 1.9 : 2.3)) - Math.min(score, 150)*0.005);
+    if(spawn <= 0){
+      addShade();
+      spawn = spawnInterval;
+    }
 
-  const shadeSpeed = Math.min(145, (diff === 3 ? 68 : (diff === 2 ? 52 : 40)) + Math.min(score, 200)*0.35);
-  for(const s of shades){
-    const a = Math.atan2(p.y-s.y, p.x-s.x);
-    s.ph += dt * 5;
-    s.x += Math.cos(a) * shadeSpeed * s.speedMul * dt;
-    s.y += Math.sin(a) * shadeSpeed * s.speedMul * dt;
-    if(Math.hypot(s.x-p.x, s.y-p.y) < 25){
-      s.dead = 1;
-      light -= (diff === 3 ? 38 : (diff === 2 ? 30 : 24));
-      shake = 0.35;
-      burst(p.x, p.y, 18, '255, 90, 120');
+    const shadeSpeed = Math.min(145, (diff === 3 ? 68 : (diff === 2 ? 52 : 40)) + Math.min(score, 200)*0.35);
+    for(const s of shades){
+      const a = Math.atan2(p.y-s.y, p.x-s.x);
+      s.ph += dt * 5;
+      s.x += Math.cos(a) * shadeSpeed * s.speedMul * dt;
+      s.y += Math.sin(a) * shadeSpeed * s.speedMul * dt;
+      if(Math.hypot(s.x-p.x, s.y-p.y) < 25){
+        s.dead = 1;
+        if(shieldTimer <= 0){
+          light -= (diff === 3 ? 38 : (diff === 2 ? 30 : 24));
+          shake = 0.35;
+          burst(p.x, p.y, 18, '255, 90, 120');
+        } else {
+          burst(s.x, s.y, 15, '112, 214, 255');
+        }
+      }
     }
   }
 
-  // موج انفجار
   cd = Math.max(0, cd - dt);
   if(pulse){
     pulse.r += 520 * dt;
@@ -828,7 +1130,6 @@ function step(dt){
   }
   shades = shades.filter(s=>!s.dead);
 
-  // ذرات دنباله فانوس
   if(Math.random() < dt * 45){
     parts.push({x:p.x+rnd(-5,5), y:p.y+7, vx:rnd(-10,10), vy:rnd(12,35), l:.55, m:.55, c:colRgb});
   }
@@ -839,7 +1140,7 @@ function step(dt){
   shake = Math.max(0, shake - dt);
 
   updateHUD();
-  if(light < MINL) handleGameOver(false, 'light');
+  if(light < MINL && superBlastTimer <= 0) handleGameOver();
 }
 
 function draw(){
@@ -847,7 +1148,6 @@ function draw(){
   if(shake > 0) g.translate(rnd(-4,4)*shake*3, rnd(-4,4)*shake*3);
   g.drawImage(bg, 0, 0);
 
-  // رسم دشمنان واضح‌تر و واقعی‌تر
   for(const s of shades){
     g.save();
     g.translate(s.x, s.y);
@@ -873,7 +1173,6 @@ function draw(){
     g.restore();
   }
 
-  // هاله تاریکی جنگل
   const gr = g.createRadialGradient(p.x, p.y, light*.4, p.x, p.y, light*1.25);
   gr.addColorStop(0,'rgba(4,3,10,0)');
   gr.addColorStop(1,'rgba(4,3,10,.92)');
@@ -893,9 +1192,14 @@ function draw(){
     g.beginPath(); g.arc(pulse.x, pulse.y, pulse.r, 0, 6.283); g.stroke();
   }
 
-  // نور کاراکتر اصلی با رنگ انتخاب شده در تنظیمات
+  if(shieldTimer > 0){
+    g.strokeStyle = 'rgba(112, 214, 255, 0.85)';
+    g.lineWidth = 3;
+    g.beginPath(); g.arc(p.x, p.y, 24 + Math.sin(t*12)*3, 0, 6.283); g.stroke();
+  }
+
   g.globalCompositeOperation = 'lighter';
-  glow(p.x, p.y, 54 + Math.sin(t*7)*4, lTheme.rgb, .95);
+  glow(p.x, p.y, (superBlastTimer>0?180:(54 + Math.sin(t*7)*4)), lTheme.rgb, .95);
   g.globalCompositeOperation = 'source-over';
   g.fillStyle = lTheme.core;
   g.beginPath(); g.arc(p.x, p.y, 7.5, 0, 6.283); g.fill();
@@ -907,11 +1211,14 @@ let last = performance.now();
 function loop(n){
   const dt = Math.min(.05, (n-last)/1000);
   last = n;
+  
+  const footEl = $('foot');
+  if(footEl) {
+    footEl.style.display = (state === 'play') ? 'flex' : 'none';
+  }
+
   if(state === 'play'){
     step(dt);
-  } else if(state === 'menu'){
-    t += dt;
-    for(const f of flies) f.ph += dt*f.s;
   }
   draw();
   requestAnimationFrame(loop);
@@ -942,6 +1249,7 @@ addEventListener('keydown', e=>{
     return;
   }
   if(e.code === 'Escape'){
+    e.preventDefault();
     if(state === 'play' || state === 'pause') togglePause();
     return;
   }
@@ -951,7 +1259,6 @@ addEventListener('keydown', e=>{
 addEventListener('keyup', e=>{ keys[e.code] = 0; });
 addEventListener('resize', fit);
 
-// مقداردهی اولیه
 resetEntities();
 $('key-badge').textContent = saveData.settings.blastKeyLabel;
 updateMainMenuStats();
