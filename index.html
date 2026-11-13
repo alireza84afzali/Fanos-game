@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>جنگل فانوس - نسخه حرفه‌ای</title>
+<title>جنگل فانوس - نسخه ۹ (نسخه پیشرفته)</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -17,12 +17,12 @@ html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--
 body{display:flex;flex-direction:column;max-width:540px;margin:0 auto;padding:8px 12px}
 
 /* HUD */
-#hud{display:flex;align-items:center;justify-content:space-between;gap:6px;font-weight:700;font-size:12.5px;padding:4px 2px 8px}
-.hud-item{display:flex;align-items:center;gap:4px;background:var(--card);padding:4px 8px;border-radius:12px;border:1px solid rgba(255,255,255,.06)}
-.hud-item b{font-weight:800;font-size:14.5px;color:var(--accent)}
-#barw{flex:1;height:10px;border-radius:10px;background:var(--card);overflow:hidden;border:1px solid rgba(255,255,255,.08)}
-#bar{height:100%;width:100%;background:linear-gradient(90deg,#f28a2e,var(--accent));border-radius:10px;transition:width .1s linear}
-.hud-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.15);border-radius:10px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:13px}
+#hud{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;font-size:14px;padding:6px 4px 10px}
+.hud-item{display:flex;align-items:center;gap:6px;background:var(--card);padding:6px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.08);min-width:75px;justify-content:center}
+.hud-item b{font-weight:800;font-size:16px;color:var(--accent)}
+#barw{flex:1;height:12px;border-radius:12px;background:var(--card);overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+#bar{height:100%;width:100%;background:linear-gradient(90deg,#f28a2e,var(--accent));border-radius:12px;transition:width .1s linear}
+.hud-btn{background:var(--card);color:var(--fg);border:1px solid rgba(255,255,255,.15);border-radius:12px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:14px}
 .hud-btn:hover{border-color:var(--accent);color:var(--accent)}
 
 /* Stage & Canvas */
@@ -31,7 +31,7 @@ body{display:flex;flex-direction:column;max-width:540px;margin:0 auto;padding:8p
 canvas{touch-action:none;display:block;cursor:none}
 
 /* Overlays */
-.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;line-height:1.6;background:rgba(10,8,18,.93);backdrop-filter:blur(6px);color:#f7ecd3;z-index:10;overflow-y:auto}
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;line-height:1.6;background:rgba(10,8,18,.95);backdrop-filter:blur(6px);color:#f7ecd3;z-index:10;overflow-y:auto}
 .overlay[hidden]{display:none}
 
 /* Top Bar inside Main Menu */
@@ -44,17 +44,23 @@ canvas{touch-action:none;display:block;cursor:none}
 .currencies{display:flex;gap:5px;align-items:center}
 .currency-badge{background:var(--card);border:1px solid rgba(255,255,255,.12);padding:4px 8px;border-radius:999px;font-size:11.5px;font-weight:800;display:flex;align-items:center;gap:3px}
 
-#ttl{margin:26px 0 4px;font-size:26px;font-weight:800;color:var(--accent);text-shadow:0 4px 15px rgba(242,178,74,.3)}
-#txt{margin:0 0 14px;font-size:13px;max-width:320px;color:#d6cbb5}
+/* Version badge top-right of main menu */
+.version-badge{position:absolute;top:12px;right:12px;background:rgba(242,178,74,0.15);border:1px solid rgba(242,178,74,0.4);color:var(--accent);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800;z-index:15;backdrop-filter:blur(4px)}
 
-.btn-group{display:flex;flex-direction:column;gap:8px;width:100%;max-width:240px}
+#ttl{margin:26px 0 4px;font-size:26px;font-weight:800;color:var(--accent);text-shadow:0 4px 15px rgba(242,178,74,.3)}
+#txt{margin:0 0 14px;font-size:13px;max-width:320px;color:#d6cbb5;position:relative;z-index:2}
+
+.btn-group{display:flex;flex-direction:column;gap:8px;width:100%;max-width:240px;position:relative;z-index:2}
 .btn{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;color:#1a1224;background:var(--accent);padding:10px 20px;font-size:14px;transition:transform .12s, filter .12s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn:hover{filter:brightness(1.1);transform:scale(1.02)}
 .btn:active{transform:scale(0.97)}
 .btn-sec{background:var(--card);color:var(--fg);box-shadow:inset 0 0 0 1.5px rgba(242,178,74,.5)}
 .btn-sec:hover{box-shadow:inset 0 0 0 1.5px var(--accent)}
 
-/* Stages Grid */
+/* Floating Lantern in Main Menu */
+#menu-lantern-canvas{position:absolute;inset:0;pointer-events:none;z-index:1}
+
+/* Stages Grid & Blocks */
 .stages-header{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-top:6px}
 .stages-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;width:100%;max-height:330px;overflow-y:auto;padding:4px}
 .stages-grid::-webkit-scrollbar{width:5px}
@@ -65,6 +71,8 @@ canvas{touch-action:none;display:block;cursor:none}
 .stage-cell.locked{opacity:.55;border-color:rgba(255,255,255,.1);cursor:not-allowed}
 .stage-cost{font-size:9px;color:#ff9e9e;font-weight:700;margin-top:2px}
 .stage-cell.done .stage-cost{color:#79ffbb}
+
+.block-banner{background:rgba(242,178,74,0.12);border:1px solid rgba(242,178,74,0.3);padding:8px 12px;border-radius:12px;margin-bottom:8px;font-size:12px;display:flex;justify-content:space-between;align-items:center}
 
 /* Settings & Shop Panels */
 .panel-box{width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px;text-align:right;background:rgba(255,255,255,.03);padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.08);max-height:390px;overflow-y:auto}
@@ -80,10 +88,11 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
 .color-oval{height:32px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;cursor:pointer;border:2px solid transparent;transition:.15s;text-shadow:0 1px 3px rgba(0,0,0,.85);color:#fff}
 .color-oval.selected{border-color:#fff;transform:scale(1.05);box-shadow:0 0 12px rgba(255,255,255,.4)}
 
-/* Key Selector */
-.key-options{display:flex;gap:5px;flex-wrap:wrap}
-.key-opt{flex:1;min-width:40px;padding:5px;border-radius:8px;background:var(--card);border:1px solid rgba(255,255,255,.15);color:var(--fg);font-weight:800;font-size:11.5px;cursor:pointer;text-align:center}
-.key-opt.active{background:var(--accent);color:#140e20;border-color:var(--accent)}
+/* Key Bindings Settings */
+.key-bind-row{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.04);padding:6px 10px;border-radius:8px;font-size:12px}
+.key-bind-btn{background:var(--card);border:1.5px solid rgba(242,178,74,0.4);color:var(--accent);padding:4px 12px;border-radius:6px;font-weight:800;font-size:12px;cursor:pointer;min-width:60px;text-align:center}
+.key-bind-btn.listening{background:var(--accent);color:#140e20;border-color:#fff;animation:pulse-anim 1s infinite}
+@keyframes pulse-anim{0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)}}
 
 /* Shop Cards */
 .shop-grid{display:flex;flex-direction:column;gap:8px;width:100%}
@@ -95,28 +104,29 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
 .buy-btn:hover{filter:brightness(1.1)}
 .item-count{font-size:11px;color:#70d6ff;font-weight:700}
 
-/* Creator FAB (Floating Action Button) */
-.creator-fab{position:absolute;bottom:10px;right:10px;width:38px;height:38px;border-radius:50%;background:var(--card);border:1.5px solid rgba(242,178,74,.4);color:var(--accent);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:15;box-shadow:0 4px 12px rgba(0,0,0,.5);transition:transform .15s, border-color .15s}
+/* Creator FAB */
+.creator-fab{position:absolute;bottom:14px;right:14px;width:38px;height:38px;border-radius:50%;background:var(--card);border:1.5px solid rgba(242,178,74,.4);color:var(--accent);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:15;box-shadow:0 4px 12px rgba(0,0,0,.5);transition:transform .15s, border-color .15s}
 .creator-fab:hover{transform:scale(1.1);border-color:var(--accent)}
 
-/* In-game Inventory HUD & Active Items */
-#ingame-items{position:absolute;top:10px;left:10px;display:flex;gap:5px;z-index:8}
-.item-hud-icon{background:rgba(26,21,43,.85);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:4px 8px;font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;opacity:0.35;transition:.2s}
-.item-hud-icon.active{opacity:1;border-color:var(--accent);box-shadow:0 0 10px rgba(242,178,74,.3)}
-.item-hud-icon.active:hover{transform:scale(1.05)}
+/* In-game Controls with Timer Bars */
+#ingame-controls{position:absolute;bottom:10px;left:10px;right:10px;display:flex;justify-content:space-between;align-items:center;z-index:9;pointer-events:none}
+.ingame-action-btn{position:relative;overflow:hidden;background:rgba(26,21,43,0.92);border:1.5px solid rgba(255,255,255,0.2);color:var(--fg);padding:6px 10px;border-radius:12px;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:4px;backdrop-filter:blur(4px);transition:.15s;pointer-events:auto;opacity:0.4}
+.ingame-action-btn.active{opacity:1;border-color:var(--accent);box-shadow:0 0 10px rgba(242,178,74,.3)}
+.ingame-action-btn.active:hover{transform:scale(1.05);color:var(--accent)}
+.ingame-action-btn small{font-size:9.5px;color:var(--accent);opacity:0.8}
 
-/* Revive Modal */
-#revive-box{display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px}
-.revive-option{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:8px 12px;border-radius:10px;font-size:12px}
-.revive-option.disabled{opacity:0.4}
+.skill-timer-bar{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);width:0%;transition:width .1s linear;border-radius:0 0 10px 10px}
+.skill-timer-bar.shield-bar{background:#70d6ff}
+.skill-timer-bar.super-bar{background:#ffd470}
 
-/* Footer Controls */
-#foot{display:flex;justify-content:center;align-items:center;gap:8px;padding-top:6px}
-#pulse{flex:1;max-width:180px;background:var(--card);color:var(--fg);padding:9px 16px;font-size:13.5px;font-weight:800;border-radius:999px;border:0;box-shadow:inset 0 0 0 2px var(--accent);cursor:pointer;transition:.15s}
-#pulse:hover:not(.cool){background:var(--accent);color:#140e20}
-#pulse.cool{opacity:.45;cursor:not-allowed}
-.extra-btn{background:rgba(86,255,170,.15);color:#56ffaa;border:1.5px solid #56ffaa;padding:9px 12px;font-size:12px;font-weight:800;border-radius:999px;cursor:pointer;display:none}
-.extra-btn:disabled{opacity:.35;border-color:#777;color:#888;cursor:not-allowed}
+#pulse-btn{position:relative;overflow:hidden;background:rgba(26,21,43,0.95);color:var(--fg);padding:8px 16px;font-size:13px;font-weight:800;border-radius:999px;border:2px solid var(--accent);cursor:pointer;pointer-events:auto;box-shadow:0 4px 15px rgba(0,0,0,.5);transition:.15s;backdrop-filter:blur(4px)}
+#pulse-btn:hover:not(.cool){background:var(--accent);color:#140e20}
+#pulse-btn.cool{opacity:.75}
+
+.skill-timer-bar.pulse-bar{background:var(--accent);height:3px}
+
+.save-stage-btn-game{background:rgba(86,255,170,.2);color:#56ffaa;border:1.5px solid #56ffaa;padding:6px 12px;border-radius:999px;font-weight:800;font-size:11px;cursor:pointer;pointer-events:auto;backdrop-filter:blur(4px)}
+.save-stage-btn-game:disabled{opacity:.35;border-color:#777;color:#888;cursor:not-allowed}
 
 /* Toast Notification */
 #toast{position:absolute;top:14px;left:50%;transform:translateX(-50%);background:rgba(20,16,34,.95);border:1px solid var(--accent);color:#fff;padding:6px 16px;border-radius:999px;font-size:12px;font-weight:700;z-index:30;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -128,7 +138,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
 <div id="hud">
   <div class="hud-item"><span id="hud-lbl">کرم:</span> <b id="sc">۰</b></div>
   <div id="barw"><div id="bar"></div></div>
-  <div class="hud-item" id="hud-right-box"><span>ثانیه:</span> <b id="bs">۰</b></div>
+  <div class="hud-item" id="hud-right-box"><span id="hud-right-title">ثانیه:</span> <b id="bs">۰</b></div>
   <button class="hud-btn" title="تنظیمات" onclick="openSettings()">⚙️</button>
   <button class="hud-btn" title="توقف بازی" onclick="togglePause()">⏸</button>
 </div>
@@ -138,18 +148,36 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
     <canvas id="c"></canvas>
     <div id="toast">ذخیره شد!</div>
 
-    <!-- آیتم‌های فعال درون بازی (زره و ابر انفجار) -->
-    <div id="ingame-items" hidden>
-      <div class="item-hud-icon" id="hud-item-shield" onclick="useInGameShield()" title="زره حفاظتی">🛡️ <span id="cnt-shield">۰</span></div>
-      <div class="item-hud-icon" id="hud-item-super" onclick="useInGameSuperBlast()" title="ابر انفجار">💥 <span id="cnt-super">۰</span></div>
-      <div class="item-hud-icon" id="hud-item-extra" onclick="useInGameExtraSave()" title="سیو اضافه مرحله">💾 <span id="cnt-extra">۰</span></div>
+    <!-- دکمه‌های کنترل درون بازی -->
+    <div id="ingame-controls" hidden>
+      <div style="display:flex; gap:5px;">
+        <button class="ingame-action-btn" id="hud-item-shield" onclick="useInGameShield()" title="زره حفاظتی">
+          🛡️ <span id="cnt-shield">۰</span> <small id="badge-shield">[Q]</small>
+          <div class="skill-timer-bar shield-bar" id="timer-bar-shield"></div>
+        </button>
+        <button class="ingame-action-btn" id="hud-item-super" onclick="useInGameSuperBlast()" title="ابر انفجار">
+          💥 <span id="cnt-super">۰</span> <small id="badge-super">[G]</small>
+          <div class="skill-timer-bar super-bar" id="timer-bar-super"></div>
+        </button>
+        <button class="ingame-action-btn" id="hud-item-extra" onclick="useInGameExtraSave()" title="سیو اضافه مرحله" style="display:none;">
+          💾 <span id="cnt-extra">۰</span> <small id="badge-extra">[S]</small>
+        </button>
+      </div>
+      <div style="display:flex; gap:6px; align-items:center;">
+        <button class="save-stage-btn-game" id="save-stage-btn" onclick="saveStageCheckpoint()" style="display:none;">💾 ذخیره</button>
+        <button id="pulse-btn" onclick="doPulse()">
+          انفجار (<span id="key-badge-blast">F</span>)
+          <div class="skill-timer-bar pulse-bar" id="timer-bar-pulse"></div>
+        </button>
+      </div>
     </div>
-
-    <!-- دکمه گرد سازنده در گوشه صفحه -->
-    <button class="creator-fab" onclick="openCreatorModal()" title="درباره سازنده">👨‍💻</button>
 
     <!-- منوی اصلی -->
     <div id="ov-main" class="overlay">
+      <canvas id="menu-lantern-canvas"></canvas>
+      <div class="version-badge" id="app-version-badge">نسخه ۹</div>
+      <button class="creator-fab" onclick="openCreatorModal()" title="درباره سازنده">👨‍💻</button>
+
       <div class="menu-top-bar">
         <div class="diff-selector" id="diff-selector">
           <button class="diff-btn active" onclick="setDiff(1)">آسان</button>
@@ -171,12 +199,12 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
         <button class="btn" onclick="startEndless()">🔥 حالت رکوردی (بی‌پایان)</button>
         <button class="btn btn-sec" onclick="openStagesMenu()">🗺️ حالت مرحله‌ای (۱۰۰ مرحله)</button>
       </div>
-      <div style="margin-top:10px;font-size:11.5px;color:#aaa">
-        رکورد سطح <span id="menu-diff-name" style="color:var(--accent);font-weight:700">آسان</span>: <b id="menu-diff-best" style="color:#fff">۰</b> ثانیه
+      <div style="margin-top:10px;font-size:11.5px;color:#aaa;position:relative;z-index:2">
+        رکورد سطح <span id="menu-diff-name" style="color:var(--accent);font-weight:700">آسان</span>: <b id="menu-diff-best" style="color:#fff">۰</b> کرم
       </div>
     </div>
 
-    <!-- منوی انتخاب مرحله (۱۰۰ مرحله با هزینه کرم تجمعی) -->
+    <!-- منوی انتخاب مرحله -->
     <div id="ov-stages" class="overlay" hidden>
       <div class="stages-header">
         <div style="display:flex;align-items:center;gap:8px">
@@ -185,6 +213,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
         </div>
         <button class="icon-btn" onclick="showOverlay('ov-main')">بازگشت ↩</button>
       </div>
+      <div class="block-banner" id="block-banner-txt">بلاک فعلی: مراحل ۱ تا ۵ (رایگان)</div>
       <div class="stages-grid" id="stages-grid"></div>
     </div>
 
@@ -221,7 +250,6 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
         <button class="icon-btn" onclick="closeSettings()">تأیید و بازگشت</button>
       </div>
       <div class="panel-box">
-        <!-- سرعت فانوس -->
         <div class="set-row">
           <div class="set-label">
             <span>سرعت حرکت فانوس:</span>
@@ -235,18 +263,28 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
           </div>
         </div>
 
-        <!-- دکمه انفجار -->
         <div class="set-row">
-          <div class="set-label"><span>دکمه انفجار در کیبورد (ویندوز):</span></div>
-          <div class="key-options" id="key-options">
-            <div class="key-opt active" data-key="KeyF" onclick="setBlastKey('KeyF','F')">F</div>
-            <div class="key-opt" data-key="Space" onclick="setBlastKey('Space','Space')">Space</div>
-            <div class="key-opt" data-key="KeyE" onclick="setBlastKey('KeyE','E')">E</div>
-            <div class="key-opt" data-key="ShiftLeft" onclick="setBlastKey('ShiftLeft','Shift')">Shift</div>
+          <div class="set-label"><span>تنظیم کلیدهای میانبر (روی دکمه کلیک کنید):</span></div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <div class="key-bind-row">
+              <span>انفجار معمولی (Pulse):</span>
+              <button class="key-bind-btn" id="bind-blast" onclick="startKeyBind('blast')">F</button>
+            </div>
+            <div class="key-bind-row">
+              <span>ابر انفجار (Super Blast):</span>
+              <button class="key-bind-btn" id="bind-superBlast" onclick="startKeyBind('superBlast')">G</button>
+            </div>
+            <div class="key-bind-row">
+              <span>زره محافظتی (Shield):</span>
+              <button class="key-bind-btn" id="bind-shield" onclick="startKeyBind('shield')">Q</button>
+            </div>
+            <div class="key-bind-row">
+              <span>سیو اضافه (Extra Save):</span>
+              <button class="key-bind-btn" id="bind-extraSave" onclick="startKeyBind('extraSave')">S</button>
+            </div>
           </div>
         </div>
 
-        <!-- رنگ فانوس -->
         <div class="set-row">
           <div class="set-label"><span>رنگ نور فانوس:</span></div>
           <div class="color-ovals" id="color-ovals">
@@ -259,7 +297,6 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
           </div>
         </div>
 
-        <!-- صدا -->
         <div class="set-row">
           <div class="set-label">
             <span>صدای آرام شب و جیرجیرک:</span>
@@ -331,7 +368,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
       </div>
     </div>
 
-    <!-- منوی توقف (Pause) با دسترسی به تنظیمات -->
+    <!-- منوی توقف -->
     <div id="ov-pause" class="overlay" hidden>
       <h2 style="margin:0 0 6px;color:var(--accent);font-size:23px">بازی متوقف شد ⏸</h2>
       <p style="margin:0 0 16px;font-size:13px;color:#ccc">می‌توانید بازی را ادامه دهید، تنظیمات را تغییر دهید یا خارج شوید.</p>
@@ -350,7 +387,6 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
       </div>
       <p id="end-txt" style="margin:0 0 12px;font-size:13px;max-width:300px;color:#e5d8be"></p>
       
-      <!-- باکس استفاده از جان اضافه -->
       <div id="revive-section" style="width:100%;max-width:260px;margin-bottom:12px">
         <div class="shop-card" style="padding:8px 10px">
           <div class="shop-info" style="text-align:right">
@@ -370,12 +406,6 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;height:5p
   </div>
 </div>
 
-<div id="foot" style="display:none">
-  <button id="pulse" onclick="doPulse()">انفجار (<span id="key-badge">F</span>)</button>
-  <button class="extra-btn" id="save-stage-btn" onclick="saveStageCheckpoint()">💾 ذخیره مرحله</button>
-  <button class="extra-btn" id="extra-save-btn" onclick="useInGameExtraSave()" style="display:none;background:rgba(112,214,255,.15);color:#70d6ff;border-color:#70d6ff">💾 سیو اضافه</button>
-</div>
-
 <script>
 (()=>{
 const W=480,H=640,cv=document.getElementById('c'),g=cv.getContext('2d');
@@ -383,6 +413,7 @@ cv.width=W;cv.height=H;
 const $=id=>document.getElementById(id);
 const rnd=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),fa=n=>Math.floor(n).toLocaleString('fa-IR');
 
+// --- سیستم ذخیره‌سازی پایدار و امن در برابر آپدیت‌ها ---
 let saveData = {
   best: {1:0, 2:0, 3:0},
   unlockedStage: {1:1, 2:1, 3:1},
@@ -396,28 +427,38 @@ let saveData = {
   },
   settings: {
     speedMul: 1.0,
-    blastKey: 'KeyF',
-    blastKeyLabel: 'F',
+    keys: {
+      blast: {code: 'KeyF', label: 'F'},
+      superBlast: {code: 'KeyG', label: 'G'},
+      shield: {code: 'KeyQ', label: 'Q'},
+      extraSave: {code: 'KeyS', label: 'S'}
+    },
     lanternColor: 'gold',
     volume: 0.5
   }
 };
 
 try {
-  const raw = localStorage.getItem('fanos_pro_v2');
+  const raw = localStorage.getItem('fanos_stable_save_v1');
   if(raw) {
     const parsed = JSON.parse(raw);
-    saveData = {...saveData, ...parsed, 
-      best:{...saveData.best,...parsed.best}, 
-      unlockedStage:{...saveData.unlockedStage,...parsed.unlockedStage}, 
-      inventory:{...saveData.inventory,...parsed.inventory},
-      settings:{...saveData.settings,...parsed.settings}
+    saveData = {
+      ...saveData, 
+      ...parsed, 
+      best:{...saveData.best,...(parsed.best||{})}, 
+      unlockedStage:{...saveData.unlockedStage,...(parsed.unlockedStage||{})}, 
+      inventory:{...saveData.inventory,...(parsed.inventory||{})},
+      settings:{
+        ...saveData.settings,
+        ...(parsed.settings||{}),
+        keys: {...saveData.settings.keys, ...(parsed.settings && parsed.settings.keys ? parsed.settings.keys : {})}
+      }
     };
   }
 } catch(e){}
 
 function persist(){
-  try { localStorage.setItem('fanos_pro_v2', JSON.stringify(saveData)); } catch(e){}
+  try { localStorage.setItem('fanos_stable_save_v1', JSON.stringify(saveData)); } catch(e){}
   updateInventoryHUD();
 }
 
@@ -429,6 +470,7 @@ function showToast(msg){
   el._t = setTimeout(()=>el.classList.remove('show'), 2200);
 }
 
+// --- صدا ---
 let audioCtx = null, cricketInterval = null, nightGain = null;
 function initAudio(){
   if(audioCtx) return;
@@ -498,6 +540,7 @@ function ensureAudioRunning(){
   if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 }
 
+// --- رنگ‌های فانوس ---
 const lanternColors = {
   gold:   {rgb:'255, 205, 105', core:'#fff9e6', name:'طلایی'},
   red:    {rgb:'255, 95, 95',   core:'#ffe6e6', name:'قرمز'},
@@ -516,10 +559,12 @@ let currentStage = 1;
 
 let MAXL = 190, MINL = 26;
 let p, flies, shades, parts, score, t=0, light, spawn, cd, pulse, shake;
-let stageTimeLeft = 0, stageGoal = 100, stageSavedUsed = false, stageCheckpointScore = 0, stageCheckpointTime = 0;
+let stageTimeLeft = 0, stageGoal = 50, stageSavedUsed = false, stageCheckpointScore = 0, stageCheckpointTime = 0;
 let shieldTimer = 0, superBlastTimer = 0;
 let mouse = {x:W/2, y:H*.7, on:false}, keys = {};
+let listeningAction = null;
 
+// پس‌زمینه جنگل
 const bg = document.createElement('canvas'); bg.width=W; bg.height=H;
 (()=>{
   const b = bg.getContext('2d');
@@ -543,20 +588,62 @@ const bg = document.createElement('canvas'); bg.width=W; bg.height=H;
   }
 })();
 
-function getStageCumulativeCost(stNum){
-  let totalRequired = 0;
-  for(let s = 1; s < stNum; s++){
-    const block = Math.floor((s - 1) / 5);
-    const blockGoal = 100 + block * 35;
-    totalRequired += blockGoal;
+// --- انیمیشن فانوس شناور و رنگارنگ در منوی اصلی ---
+const menuCv = $('menu-lantern-canvas');
+menuCv.width = W; menuCv.height = H;
+const menuCtx = menuCv.getContext('2d');
+let floatingLanterns = [
+  {x: W*0.25, y: H*0.35, vx: 22, vy: -18, radius: 28, colorKey: 'gold', hueTime: 0},
+  {x: W*0.75, y: H*0.65, vx: -18, vy: 20, radius: 22, colorKey: 'blue', hueTime: 2.5}
+];
+
+function updateAndDrawMenuLanterns(dt){
+  menuCtx.clearRect(0,0,W,H);
+  const colorKeys = Object.keys(lanternColors);
+
+  for(const fl of floatingLanterns){
+    fl.x += fl.vx * dt;
+    fl.y += fl.vy * dt;
+    fl.hueTime += dt * 0.8;
+
+    if(fl.x < 40 || fl.x > W-40) fl.vx *= -1;
+    if(fl.y < 50 || fl.y > H-50) fl.vy *= -1;
+
+    const colorIndex = Math.floor(fl.hueTime) % colorKeys.length;
+    const nextColorIndex = (colorIndex + 1) % colorKeys.length;
+    const lerpFactor = fl.hueTime % 1;
+    
+    const c1 = lanternColors[colorKeys[colorIndex]].rgb.split(',').map(Number);
+    const c2 = lanternColors[colorKeys[nextColorIndex]].rgb.split(',').map(Number);
+    const mixedRgb = `${Math.round(c1[0]*(1-lerpFactor)+c2[0]*lerpFactor)}, ${Math.round(c1[1]*(1-lerpFactor)+c2[1]*lerpFactor)}, ${Math.round(c1[2]*(1-lerpFactor)+c2[2]*lerpFactor)}`;
+
+    menuCtx.save();
+    menuCtx.globalCompositeOperation = 'lighter';
+    const grad = menuCtx.createRadialGradient(fl.x, fl.y, 0, fl.x, fl.y, fl.radius * 2.2);
+    grad.addColorStop(0, `rgba(${mixedRgb}, 0.55)`);
+    grad.addColorStop(1, `rgba(${mixedRgb}, 0)`);
+    menuCtx.fillStyle = grad;
+    menuCtx.beginPath(); menuCtx.arc(fl.x, fl.y, fl.radius * 2.2, 0, 6.283); menuCtx.fill();
+
+    menuCtx.fillStyle = '#fff9e6';
+    menuCtx.beginPath(); menuCtx.arc(fl.x, fl.y, fl.radius * 0.45, 0, 6.283); menuCtx.fill();
+    menuCtx.restore();
   }
-  return totalRequired;
+}
+
+/* --- مدیریت بلاک‌ها و هزینه‌های مرحله‌ای --- */
+function getBlockIndex(stNum){
+  return Math.floor((stNum - 1) / 5);
+}
+
+function getBlockCost(blockIdx){
+  if(blockIdx === 0) return 0;
+  return blockIdx * 450;
 }
 
 function getStageParams(stNum){
-  const block = Math.floor((stNum - 1) / 5);
-  const goal = 100 + block * 35;
-  const time = Math.round(goal * 0.85 + 25);
+  const goal = 35 + stNum * 6;
+  const time = Math.round(goal * 0.9 + 22);
   return {goal, time};
 }
 
@@ -592,7 +679,7 @@ function updateMainMenuStats(){
   $('menu-diff-best').textContent = fa(saveData.best[diff] || 0);
   $('diamond-count').textContent = fa(saveData.diamonds || 0);
   $('total-worms-badge').textContent = fa(saveData.totalWorms || 0);
-  $('bs').textContent = fa(saveData.best[diff] || 0);
+  $('bs').textContent = '۰';
   updateShopUI();
 }
 
@@ -602,17 +689,34 @@ window.openSettings = function(){
   updateSpeedLabel(saveData.settings.speedMul);
   $('vol-slider').value = saveData.settings.volume;
   updateVolLabel(saveData.settings.volume);
+  updateKeyBindUI();
 
-  document.querySelectorAll('.key-opt').forEach(el=>{
-    el.classList.toggle('active', el.dataset.key === saveData.settings.blastKey);
-  });
   document.querySelectorAll('.color-oval').forEach(el=>{
     el.classList.toggle('selected', el.dataset.col === saveData.settings.lanternColor);
   });
   showOverlay('ov-settings');
 };
 
+function updateKeyBindUI(){
+  const keys = saveData.settings.keys;
+  if($('bind-blast')) $('bind-blast').textContent = keys.blast.label;
+  if($('bind-superBlast')) $('bind-superBlast').textContent = keys.superBlast.label;
+  if($('bind-shield')) $('bind-shield').textContent = keys.shield.label;
+  if($('bind-extraSave')) $('bind-extraSave').textContent = keys.extraSave.label;
+}
+
+window.startKeyBind = function(action){
+  listeningAction = action;
+  document.querySelectorAll('.key-bind-btn').forEach(b => b.classList.remove('listening'));
+  const btn = $(`bind-${action}`);
+  if(btn){
+    btn.classList.add('listening');
+    btn.textContent = '... کلید فشار دهید';
+  }
+};
+
 window.closeSettings = function(){
+  listeningAction = null;
   persist();
   if(state === 'pause') showOverlay('ov-pause');
   else showOverlay('ov-main');
@@ -635,15 +739,6 @@ function updateSpeedLabel(v){
 window.updateSpeedSetting = function(v){
   saveData.settings.speedMul = parseFloat(v);
   updateSpeedLabel(v);
-};
-
-window.setBlastKey = function(code, label){
-  saveData.settings.blastKey = code;
-  saveData.settings.blastKeyLabel = label;
-  $('key-badge').textContent = label;
-  document.querySelectorAll('.key-opt').forEach(el=>{
-    el.classList.toggle('active', el.dataset.key === code);
-  });
 };
 
 window.setLanternColor = function(col){
@@ -705,20 +800,28 @@ window.openStagesMenu = function(){
   const grid = $('stages-grid');
   grid.innerHTML = '';
   const maxUnlocked = saveData.unlockedStage[diff] || 1;
+  const currentBlock = getBlockIndex(maxUnlocked);
+  const blockCost = getBlockCost(currentBlock);
+  const hasEnoughForBlock = (saveData.totalWorms || 0) >= blockCost;
+
+  $('block-banner-txt').innerHTML = `بلاک فعلی: مراحل ${fa(currentBlock*5+1)} تا ${fa(Math.min(100,(currentBlock+1)*5))} ${blockCost>0?`(هزینه بازگشایی: ${fa(blockCost)} 🪱)`:'(رایگان)'}`;
 
   for(let i=1; i<=100; i++){
     const cell = document.createElement('div');
-    const cost = getStageCumulativeCost(i);
-    const hasEnoughWorms = (saveData.totalWorms || 0) >= cost;
-    const isUnlocked = i <= maxUnlocked || (hasEnoughWorms && i === maxUnlocked);
+    const bIdx = getBlockIndex(i);
+    const bCost = getBlockCost(bIdx);
+    
+    const blockStartStage = bIdx * 5 + 1;
+    const blockCostMet = bIdx === 0 || (saveData.totalWorms || 0) >= bCost || i < blockStartStage;
+    const isUnlocked = (i <= maxUnlocked) && (i < blockStartStage || blockCostMet || i <= maxUnlocked);
     const isDone = i < maxUnlocked;
 
     cell.className = 'stage-cell' + (!isUnlocked ? ' locked' : '') + (isDone ? ' done' : '');
     
     if(!isUnlocked){
-      cell.innerHTML = `<span>🔒 ${fa(i)}</span><span class="stage-cost">${fa(cost)} 🪱</span>`;
+      cell.innerHTML = `<span>🔒 ${fa(i)}</span><span class="stage-cost">${bIdx > 0 && i === blockStartStage ? `نیاز ${fa(bCost)}🪱` : `مرحله بعد`}</span>`;
     } else {
-      cell.innerHTML = `<span>${fa(i)}</span>${cost > 0 ? `<span class="stage-cost">✓ ${fa(cost)}</span>`:''}`;
+      cell.innerHTML = `<span>${fa(i)}</span>${isDone?'<span class="stage-cost">✓ انجام شده</span>':''}`;
       cell.onclick = ()=> startStageLevel(i);
     }
     grid.appendChild(cell);
@@ -748,12 +851,14 @@ window.startEndless = function(){
   mode = 'endless';
   resetEntities();
   $('hud-lbl').textContent = 'کرم:';
-  $('hud-right-box').innerHTML = `<span>ثانیه:</span> <b id="bs">۰</b>`;
+  $('hud-right-title').textContent = 'ثانیه:';
+  $('bs').textContent = '۰';
   $('save-stage-btn').style.display = 'none';
-  $('extra-save-btn').style.display = 'none';
-  $('ingame-items').hidden = false;
+  $('hud-item-extra').style.display = 'none';
+  $('ingame-controls').hidden = false;
   updateInventoryHUD();
   state = 'play';
+  last = performance.now();
   ['ov-main','ov-stages','ov-settings','ov-shop','ov-pause','ov-end','ov-creator'].forEach(oid=>$(oid).hidden=true);
 };
 
@@ -770,19 +875,21 @@ window.startStageLevel = function(stNum){
   stageCheckpointTime = params.time;
 
   $('hud-lbl').textContent = `مرحله ${fa(stNum)} (${fa(stageGoal)} کرم):`;
-  $('hud-right-box').innerHTML = `<span>زمان:</span> <b id="st-timer">${fa(stageTimeLeft)}</b>`;
+  $('hud-right-title').textContent = 'زمان:';
+  $('bs').textContent = fa(stageTimeLeft);
   
   const saveBtn = $('save-stage-btn');
   saveBtn.style.display = 'inline-block';
   saveBtn.disabled = false;
-  saveBtn.textContent = '💾 ذخیره مرحله';
+  saveBtn.textContent = '💾 ذخیره';
 
-  const extraSaveBtn = $('extra-save-btn');
-  extraSaveBtn.style.display = saveData.inventory.extraSave > 0 ? 'inline-block' : 'none';
+  const extraBtn = $('hud-item-extra');
+  extraBtn.style.display = 'flex';
 
-  $('ingame-items').hidden = false;
+  $('ingame-controls').hidden = false;
   updateInventoryHUD();
   state = 'play';
+  last = performance.now();
   ['ov-main','ov-stages','ov-settings','ov-shop','ov-pause','ov-end','ov-creator'].forEach(oid=>$(oid).hidden=true);
 };
 
@@ -790,6 +897,12 @@ function updateInventoryHUD(){
   $('cnt-shield').textContent = fa(saveData.inventory.shield || 0);
   $('cnt-super').textContent = fa(saveData.inventory.superBlast || 0);
   $('cnt-extra').textContent = fa(saveData.inventory.extraSave || 0);
+
+  const keys = saveData.settings.keys;
+  $('badge-shield').textContent = `[${keys.shield.label}]`;
+  $('badge-super').textContent = `[${keys.superBlast.label}]`;
+  $('badge-extra').textContent = `[${keys.extraSave.label}]`;
+  $('key-badge-blast').textContent = keys.blast.label;
 
   ['shield','super','extra'].forEach(k=>{
     const el = $(`hud-item-${k}`);
@@ -853,6 +966,7 @@ function restoreStageCheckpoint(){
   pulse = null;
   cd = 0;
   state = 'play';
+  last = performance.now();
   $('ov-end').hidden = true;
   showToast('بازی از نقطه ذخیره بازیابی شد!');
 }
@@ -869,6 +983,7 @@ window.togglePause = function(){
 window.resumeGame = function(){
   if(state === 'pause'){
     state = 'play';
+    last = performance.now();
     $('ov-pause').hidden = true;
   }
 };
@@ -930,25 +1045,39 @@ window.doPulse = function(){
 function updateHUD(){
   if(mode === 'stages'){
     $('sc').textContent = `${fa(score)} / ${fa(stageGoal)}`;
-    const tEl = $('st-timer');
-    if(tEl){
-      tEl.textContent = fa(Math.max(0, Math.ceil(stageTimeLeft))) + 'ث';
-      tEl.style.color = stageTimeLeft <= 10 ? '#ff5c5c' : 'var(--accent)';
-    }
+    $('bs').textContent = fa(Math.max(0, Math.ceil(stageTimeLeft))) + 'ث';
   } else {
     $('sc').textContent = fa(score);
-    const bEl = $('bs');
-    if(bEl) bEl.textContent = fa(Math.floor(t));
+    $('bs').textContent = fa(Math.floor(t)) + 'ث';
   }
   $('bar').style.width = cl((light-MINL)/(MAXL-MINL), 0, 1)*100 + '%';
-  const pb = $('pulse');
-  pb.className = cd > 0 ? 'cool' : '';
-  pb.innerHTML = cd > 0 ? `انفجار (${fa(Math.ceil(cd))})` : `انفجار (<span id="key-badge">${saveData.settings.blastKeyLabel}</span>)`;
+  
+  const shieldBar = $('timer-bar-shield');
+  if(shieldBar){
+    const pct = shieldTimer > 0 ? (shieldTimer / 15) * 100 : 0;
+    shieldBar.style.width = pct + '%';
+  }
+  const superBar = $('timer-bar-super');
+  if(superBar){
+    const pct = superBlastTimer > 0 ? (superBlastTimer / 10) * 100 : 0;
+    superBar.style.width = pct + '%';
+  }
+  const pulseBar = $('timer-bar-pulse');
+  if(pulseBar){
+    const maxCd = diff === 3 ? 5.5 : 4;
+    const pct = cd > 0 ? (cd / maxCd) * 100 : 0;
+    pulseBar.style.width = pct + '%';
+  }
+
+  const pb = $('pulse-btn');
+  if(pb){
+    pb.className = cd > 0 ? 'cool' : '';
+  }
 }
 
 function handleGameOver(){
   state = 'over';
-  $('ingame-items').hidden = true;
+  $('ingame-controls').hidden = true;
 
   if(score > 0){
     saveData.totalWorms = (saveData.totalWorms || 0) + score;
@@ -974,14 +1103,14 @@ function handleGameOver(){
     }
   } else {
     const prevBest = saveData.best[diff] || 0;
-    const finalSec = Math.floor(t);
-    const isRec = finalSec > prevBest;
+    const finalWorms = score;
+    const isRec = finalWorms > prevBest;
     if(isRec){
-      saveData.best[diff] = finalSec;
+      saveData.best[diff] = finalWorms;
     }
     persist();
     $('end-ttl').textContent = 'نورت خاموش شد 🕯️';
-    $('end-txt').textContent = `در سطح ${diffNames[diff]} توانستی ${fa(score)} کرم جمع کنی و ${fa(finalSec)} ثانیه دوام بیاوری!` + (isRec ? ' 🏆 رکورد جدید ثانیه ثبت شد!' : '');
+    $('end-txt').textContent = `در سطح ${diffNames[diff]} توانستی ${fa(finalWorms)} کرم جمع کنی!` + (isRec ? ' 🏆 رکورد جدید کرم ثبت شد!' : '');
     primaryBtn.textContent = 'شروع دوباره';
     primaryBtn.onclick = ()=> startEndless();
   }
@@ -996,8 +1125,9 @@ window.useExtraLifeRevive = function(){
     light = 150;
     shieldTimer = 5;
     state = 'play';
+    last = performance.now();
     $('ov-end').hidden = true;
-    $('ingame-items').hidden = false;
+    $('ingame-controls').hidden = false;
     showToast('❤️ جان اضافه مصرف شد! به بازی برگشتی.');
   }
 };
@@ -1013,7 +1143,7 @@ function step(dt){
       }
       persist();
       state = 'over';
-      $('ingame-items').hidden = true;
+      $('ingame-controls').hidden = true;
       $('end-ttl').textContent = `مرحله ${fa(currentStage)} کامل شد! 🎉`;
       $('end-txt').textContent = `عالی بود! ${fa(score)} کرم جمع کردی.`;
       const primaryBtn = $('end-primary-btn');
@@ -1212,13 +1342,15 @@ function loop(n){
   const dt = Math.min(.05, (n-last)/1000);
   last = n;
   
-  const footEl = $('foot');
-  if(footEl) {
-    footEl.style.display = (state === 'play') ? 'flex' : 'none';
+  const ingameControls = $('ingame-controls');
+  if(ingameControls) {
+    ingameControls.hidden = (state !== 'play');
   }
 
   if(state === 'play'){
     step(dt);
+  } else if(state === 'menu'){
+    updateAndDrawMenuLanterns(dt);
   }
   draw();
   requestAnimationFrame(loop);
@@ -1229,6 +1361,8 @@ function fit(){
   const s = Math.min(st.clientWidth/W, st.clientHeight/H);
   cv.style.width = Math.floor(W*s) + 'px';
   cv.style.height = Math.floor(H*s) + 'px';
+  menuCv.style.width = Math.floor(W*s) + 'px';
+  menuCv.style.height = Math.floor(H*s) + 'px';
 }
 
 function pt(e){
@@ -1243,11 +1377,40 @@ cv.addEventListener('pointermove', pt);
 cv.addEventListener('pointerdown', pt);
 
 addEventListener('keydown', e=>{
-  if(e.code === saveData.settings.blastKey){
+  if(listeningAction){
+    e.preventDefault();
+    const label = e.key.length === 1 ? e.key.toUpperCase() : (e.code.replace('Key','').replace('Digit',''));
+    saveData.settings.keys[listeningAction] = {code: e.code, label: label || e.code};
+    listeningAction = null;
+    updateKeyBindUI();
+    persist();
+    showToast('کلید جدید با موفقیت ثبت شد!');
+    return;
+  }
+
+  const keysSet = saveData.settings.keys;
+
+  if(e.code === keysSet.blast.code){
     e.preventDefault();
     if(state === 'play') doPulse();
     return;
   }
+  if(e.code === keysSet.superBlast.code){
+    e.preventDefault();
+    if(state === 'play') useInGameSuperBlast();
+    return;
+  }
+  if(e.code === keysSet.shield.code){
+    e.preventDefault();
+    if(state === 'play') useInGameShield();
+    return;
+  }
+  if(e.code === keysSet.extraSave.code){
+    e.preventDefault();
+    if(state === 'play') useInGameExtraSave();
+    return;
+  }
+
   if(e.code === 'Escape'){
     e.preventDefault();
     if(state === 'play' || state === 'pause') togglePause();
@@ -1260,7 +1423,7 @@ addEventListener('keyup', e=>{ keys[e.code] = 0; });
 addEventListener('resize', fit);
 
 resetEntities();
-$('key-badge').textContent = saveData.settings.blastKeyLabel;
+updateKeyBindUI();
 updateMainMenuStats();
 fit();
 requestAnimationFrame(loop);
